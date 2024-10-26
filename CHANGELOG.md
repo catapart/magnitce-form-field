@@ -1,5 +1,11 @@
 # @magnit-ce/form-field
 
+## 0.0.5
+
+### Patch Changes
+
+- 66c1b1f: fixes for demo page
+
 ## 0.0.4
 
 ### Patch Changes
