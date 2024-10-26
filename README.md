@@ -144,7 +144,7 @@ By default, the `<form-field>` element has a `display` style of `contents`. This
 
 Each class used by the `<form-field>` element is listed below:
 |Class Name|Description
-|-|-|-|
+|-|-|
 |`container`|For single inputs, the label that wraps the input and title. For multiple inputs, a `<div>` that wraps each input's parent `<label>`.|
 |`field-label`|The element the displays the field's title.|
 |`option`|A container `<label>` element for each input when multiple inputs are provided.|
