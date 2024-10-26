@@ -5,6 +5,18 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Form Field Demo</title>
     <link rel="stylesheet" href="./demo-page.css">
+    <style>
+        code.block
+        {
+            overflow: auto;
+            min-width: 50px;
+            align-self: flex-end;
+        }
+        .field-label
+        {
+            color: highlight;
+        }
+    </style>
 </head>
 <body>
     <main>
@@ -54,12 +66,7 @@
                         display: grid;
                         grid-template-rows: auto 1fr;
                     }
-                    code.block
-                    {
-                        overflow: auto;
-                        min-width: 50px;
-                        align-self: flex-end;
-                    }
+                    
                     article.basic code.block
                     {
                         height: 300px;
@@ -196,14 +203,64 @@
                     {
                         display: grid;
                     }
-                    
-                    /* article.helpers code pre
+
+                    article.helpers .result
                     {
-                        overflow: auto;
-                        max-width: 430px;
-                        min-width: 50px;
-                        word-break: break-all;
-                    } */
+                        display: grid;
+                        grid-auto-rows: min-content;
+                        align-items: flex-start;
+                        gap: 1em;
+                    }
+
+                    form-field.search
+                    {
+                        display: grid;
+                        grid-template-columns: auto 1fr auto;
+                        row-gap: .25em;
+                        background-color: rgb(0 0 0 / .2);
+                        padding: 1em;
+                        border-radius: 3px;
+                    }
+                    form-field.search .container
+                    {
+                        display: contents;
+                    }
+                    form-field.search .field-label
+                    {
+                        grid-column: span 3;
+                        font-size: 12px;
+                        font-weight: bold;
+                    }
+                    form-field.search input
+                    ,form-field.search select
+                    ,form-field.search button
+                    {
+                        background-color: field;
+                        color: fieldtext;
+                        border: solid 1px;
+                        padding: 2px 10px;
+                    }
+                    form-field.search select
+                    {
+                        border-top-left-radius: 3px;
+                        border-bottom-left-radius: 3px;
+                    }
+                    form-field.search input
+                    {
+                        border-left: none;
+                        border-right: none;
+                    }
+                    form-field.search button
+                    {
+                        border-top-right-radius: 3px;
+                        border-bottom-right-radius: 3px;
+                    }
+                    form-field.search .error
+                    {
+                        grid-column: span 3;
+                        font-size: .8em;
+                        color: red;
+                    }
                 </style>
                 <section>
                     <header>Content Without a <code>slot</code> attribute</header>
@@ -238,7 +295,14 @@
                             <pre>
 &lt;form-field label=&quot;Text&quot;&gt;
     &lt;input type=&quot;text&quot; name=&quot;prefix-text&quot; placeholder=&quot;Prefix&quot; /&gt;
-    &lt;span slot="prefix"&gt;Before&lt;/span&gt;
+    &lt;span slot=&quot;prefix&quot;&gt;Before&lt;/span&gt;
+&lt;/form-field&gt;
+&lt;form-field label=&quot;Group&quot;&gt;
+    &lt;input type=&quot;checkbox&quot; name=&quot;prefix-booleans&quot; value=&quot;0&quot; /&gt;
+    &lt;input type=&quot;checkbox&quot; name=&quot;prefix-booleans&quot; value=&quot;1&quot; /&gt;
+    &lt;input type=&quot;checkbox&quot; name=&quot;prefix-booleans&quot; value=&quot;2&quot; /&gt;
+    &lt;input type=&quot;checkbox&quot; name=&quot;prefix-booleans&quot; value=&quot;3&quot; /&gt;
+    &lt;span slot=&quot;prefix&quot;&gt;Before&lt;/span&gt;
 &lt;/form-field&gt;
                             </pre>
                         </code>
@@ -265,8 +329,15 @@
                         <code class="block">
                             <pre>
 &lt;form-field label=&quot;Text&quot;&gt;
-    &lt;span slot="postfix"&gt;After&lt;/span&gt;
+    &lt;span slot=&quot;postfix&quot;&gt;After&lt;/span&gt;
     &lt;input type=&quot;text&quot; name=&quot;postfix-text&quot; placeholder=&quot;Postfix&quot; /&gt;
+&lt;/form-field&gt;
+&lt;form-field label=&quot;Group&quot;&gt;
+    &lt;span slot=&quot;postfix&quot;&gt;After&lt;/span&gt;
+    &lt;input type=&quot;checkbox&quot; name=&quot;postfix-booleans&quot; value=&quot;0&quot; /&gt;
+    &lt;input type=&quot;checkbox&quot; name=&quot;postfix-booleans&quot; value=&quot;1&quot; /&gt;
+    &lt;input type=&quot;checkbox&quot; name=&quot;postfix-booleans&quot; value=&quot;2&quot; /&gt;
+    &lt;input type=&quot;checkbox&quot; name=&quot;postfix-booleans&quot; value=&quot;3&quot; /&gt;
 &lt;/form-field&gt;
                             </pre>
                         </code>
@@ -291,14 +362,20 @@
                     <div class="code-and-result">
                         <code class="block">
                             <pre>
-&lt;form-field label=&quot;Username&quot;&gt;
-    &lt;div slot="after"&gt;After&lt;/div&gt;
-    &lt;input type=&quot;text&quot; name=&quot;username&quot; placeholder=&quot;Same as it ever was&quot; /&gt;
+&lt;form-field label=&quot;Search&quot; class=&quot;search&quot; input-selector=&quot;input[type='search']&quot;&gt;
+    &lt;input type=&quot;search&quot; name=&quot;query&quot; /&gt;
+    &lt;select slot=&quot;prefix&quot; class=&quot;type&quot;&gt;
+        &lt;option value=&quot;name&quot;&gt;Name&lt;/option&gt;
+        &lt;option value=&quot;tag&quot;&gt;Tag&lt;/option&gt;
+        &lt;option value=&quot;id&quot;&gt;Product ID&lt;/option&gt;
+    &lt;/select&gt;
+    &lt;button slot=&quot;postfix&quot;&gt;&amp;#x1f50d;&lt;/button&gt;
+    &lt;div class=&quot;error&quot;&gt;&lt;/div&gt;
 &lt;/form-field&gt;
                             </pre>
                         </code>
                         <div class="result">
-                            <form-field label="Search">
+                            <form-field label="Search" class="search" input-selector="input[type='search']">
                                 <input type="search" name="query" />
                                 <select slot="prefix" class="type">
                                     <option value="name">Name</option>
@@ -306,7 +383,7 @@
                                     <option value="id">Product ID</option>
                                 </select>
                                 <button slot="postfix">&#x1f50d;</button>
-                                <div class="error"></div>
+                                <div class="error">This is where error text would be displayed.</div>
                             </form-field>
                         </div>
                     </div>
@@ -411,7 +488,7 @@
                             <input type="checkbox" name="checkbox-group" value="platypus" />
                             <input type="checkbox" name="checkbox-group" value="hyphenated-pythons" />
                         </form-field>
-                        <form-field label="Radio Group" disabled>
+                        <form-field label="Radio Group">
                             <input type="radio" name="radio-group" value="a" data-label="&lt; 50 miles" />
                             <input type="radio" name="radio-group" value="b" data-label="&gt; 50 miles, &lt; 500 miles" />
                             <input type="radio" name="radio-group" value="c" data-label="&gt; 500 miles &lt; 1000 miles" />
