@@ -1,5 +1,11 @@
 # @magnit-ce/form-field
 
+## 0.0.4
+
+### Patch Changes
+
+- ad891af: fixed class table in docs
+
 ## 0.0.3
 
 ### Patch Changes
