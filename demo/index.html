@@ -1,0 +1,512 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Form Field Demo</title>
+    <link rel="stylesheet" href="./demo-page.css">
+</head>
+<body>
+    <main>
+        <h1>Overview</h1>
+        <div class="overview">
+            <p>The <code>&lt;form-field&gt;</code> element is a wrapper element that provides a label element and common layouts for form elements like <code>&lt;input&gt;</code>, <code>&lt;select&gt;</code>, and <code>&lt;textarea&gt;</code> elements.</p>
+            <p>The goal of the element is to allow hand-written <code>&lt;form&gt;</code>s to be possible with fewer elements when doing the most common form designs.</p>
+        </div>
+        <h1>Examples</h1>
+        <article class="basic">
+            <header>Basic Examples</header>
+            <p>The <code>&lt;form-field&gt;</code> element is used as a helper to whittle down the boilerplate necessary to have well-functioning and well-formatted form field.</p>
+            <p>The element may include a <code>&lt;label&gt;</code> element or several <code>&lt;label&gt;</code> elements, depending on whether the input is a collection of inputs or not.</p>
+            <p>If the content is only a single child, that child will be rendered in a <code>&lt;label&gt;</code> element with a span to hold the text of the field's title. The content of that span will be populated by any value provided as the <code>label</code> attribute on the <code>&lt;form-field&gt;</code> element.</p>
+            <p>If the content is multiple inputs, the inputs will be rendered in a <code>&lt;div class="container"&gt;</code> element with a span to hold the text of the field's title, which should describe the whole group. The content of that span will be populated by any value provided as the <code>label</code> attribute on the <code>&lt;form-field&gt;</code> element.</p>
+            <p>Each of the provided inputs will be rendered in their own <code>&lt;label&gt;</code> elements, each including titles for the inputs based on the input values.</p>
+            <p>In the examples below, note the difference in HTML written with the the <code>&lt;form-field&gt;</code> element vs with non-custom HTML elements. For only 4 fields, the difference is still apparent. But as forms grow, the benefit of using the <code>&lt;form-field&gt;</code> element grows too.</p>
+            <div class="example">
+                <style>
+                    article.basic .example
+                    {
+                        display: grid;
+                        gap: .5em;
+                    }
+                    article.basic .example form-field > [part="container"]
+                    {
+                        display: grid;
+                    }
+                    article.basic .comparison
+                    {
+                        display: grid;
+                        gap: .5em;
+                        grid-template-columns: 1fr 1fr;
+                        /* width: auto; */
+                        overflow: hidden;
+                    }
+                    article.basic .comparison > header
+                    {
+                        grid-column: span 2;
+                    }
+                    article.basic .comparison > div > header
+                    {
+                        margin-bottom: 10px;
+                    }
+                    article.basic .comparison > div
+                    {
+                        display: grid;
+                        grid-template-rows: auto 1fr;
+                    }
+                    code.block
+                    {
+                        overflow: auto;
+                        min-width: 50px;
+                        align-self: flex-end;
+                    }
+                    article.basic code.block
+                    {
+                        height: 300px;
+                    }
+                </style>
+                <form-field label="No Input" placeholder="This form-field has no inputs"></form-field>
+                <form-field label="Custom Text Input"><input type="text" name="username" placeholder="This input is defined in the html" /></form-field>
+                <form-field label="Password"><input type="password" name="password" /></form-field>
+                <form-field label="Ways for Love to Grow">
+                    <select name="love-growth-method">
+                        <option value="good">Good</option>
+                        <option value="bad">Bad</option>
+                        <option value="mediocre">Mediocre</option>
+                    </select>
+                </form-field>
+                <form-field label="Subs">
+                    <input type="checkbox" name="subs" value="meatball" />
+                    <input type="checkbox" name="subs" value="turkey-bacon-club" />
+                    <input type="checkbox" name="subs" value="philly-cheesesteak" />
+                    <input type="checkbox" name="subs" value="chicken-salad" />
+                </form-field>
+            </div>
+            <div class="comparison">
+                <header>Comparison</header>
+                <div class="left">
+                    <header><code>&lt;form-field&gt;</code> Element</header>
+                    <code class="block">
+                        <pre>
+&lt;form-field label=&quot;No Input&quot; placeholder=&quot;This form-field has no inputs&quot;&gt;&lt;/form-field&gt;
+&lt;form-field label=&quot;Custom Text Input&quot;&gt;
+    &lt;input type=&quot;text&quot; name=&quot;username&quot; placeholder=&quot;This input is defined in the html&quot; /&gt;
+&lt;/form-field&gt;
+&lt;form-field label=&quot;Password&quot;&gt;
+    &lt;input type=&quot;password&quot; name=&quot;password&quot; /&gt;
+&lt;/form-field&gt;
+&lt;form-field label=&quot;Ways for Love to Grow&quot;&gt;
+    &lt;select name=&quot;love-growth-method&quot;&gt;
+        &lt;option value=&quot;good&quot;&gt;Good&lt;/option&gt;
+        &lt;option value=&quot;bad&quot;&gt;Bad&lt;/option&gt;
+        &lt;option value=&quot;mediocre&quot;&gt;Mediocre&lt;/option&gt;
+    &lt;/select&gt;
+&lt;/form-field&gt;
+&lt;form-field label=&quot;Subs&quot;&gt;
+    &lt;input type=&quot;checkbox&quot; name=&quot;subs&quot; value=&quot;meatball&quot; /&gt;
+    &lt;input type=&quot;checkbox&quot; name=&quot;subs&quot; value=&quot;turkey-bacon-club&quot; /&gt;
+    &lt;input type=&quot;checkbox&quot; name=&quot;subs&quot; value=&quot;philly-cheesesteak&quot; /&gt;
+    &lt;input type=&quot;checkbox&quot; name=&quot;subs&quot; value=&quot;chicken-salad&quot; /&gt;
+&lt;/form-field&gt;
+                        </pre>
+                    </code>
+                </div>
+                <div class="right">
+                    <header>Plain HTML</header>
+                    <code class="block">
+                        <pre>
+&lt;label class=&quot;container&quot;&gt;
+    &lt;span class=&quot;field-label&quot;&gt;No Input&lt;/span&gt;
+    &lt;input placeholder=&quot;This form-field has no inputs&quot;&gt;
+&lt;/label&gt;
+&lt;label class=&quot;container&quot;&gt;
+    &lt;span class=&quot;field-label&quot;&gt;Custom Text Input&lt;/span&gt;
+    &lt;input type=&quot;text&quot; name=&quot;username&quot; placeholder=&quot;This input is defined in the html&quot;&gt;
+&lt;/label&gt;
+&lt;label class=&quot;container&quot;&gt;
+    &lt;span class=&quot;field-label&quot;&gt;Password&lt;/span&gt;
+    &lt;input type=&quot;password&quot; name=&quot;password&quot;&gt;
+&lt;/label&gt;
+&lt;label class=&quot;container&quot;&gt;
+    &lt;span class=&quot;field-label&quot;&gt;Ways for Love to Grow&lt;/span&gt;
+    &lt;select name=&quot;love-growth-method&quot;&gt;
+        &lt;option value=&quot;good&quot;&gt;Good&lt;/option&gt;
+        &lt;option value=&quot;bad&quot;&gt;Bad&lt;/option&gt;
+        &lt;option value=&quot;mediocre&quot;&gt;Mediocre&lt;/option&gt;
+    &lt;/select&gt;
+&lt;/label&gt;
+&lt;div class=&quot;container&quot;&gt;
+    &lt;span class=&quot;field-label&quot;&gt;Subs&lt;/span&gt;
+    &lt;label class=&quot;option&quot;&gt;
+        &lt;input type=&quot;checkbox&quot; name=&quot;subs&quot; value=&quot;meatball&quot;&gt;
+        &lt;span class=&quot;label&quot;&gt;Meatball&lt;/span&gt;
+    &lt;/label&gt;
+    &lt;label class=&quot;option&quot;&gt;
+        &lt;input type=&quot;checkbox&quot; name=&quot;subs&quot; value=&quot;turkey-bacon-club&quot;&gt;
+        &lt;span class=&quot;label&quot;&gt;Turkey Bacon Club&lt;/span&gt;
+    &lt;/label&gt;
+    &lt;label class=&quot;option&quot;&gt;
+        &lt;input type=&quot;checkbox&quot; name=&quot;subs&quot; value=&quot;philly-cheesesteak&quot;&gt;
+        &lt;span class=&quot;label&quot;&gt;Philly Cheesesteak&lt;/span&gt;
+    &lt;/label&gt;
+    &lt;label class=&quot;option&quot;&gt;
+        &lt;input type=&quot;checkbox&quot; name=&quot;subs&quot; value=&quot;chicken-salad&quot;&gt;
+        &lt;span class=&quot;label&quot;&gt;Chicken Salad&lt;/span&gt;
+    &lt;/label&gt;
+&lt;/div&gt;
+                        </pre>
+                    </code>
+                </div>
+            </div>
+            <script type="module">
+                const basicExample = document.querySelector('article.basic');
+                const basicLog = document.querySelector('article.basic .log ul');
+                document.addEventListener('DOMContentLoaded', () =>
+                {
+                });  
+                function logResult(result)
+                {
+                    const entry = document.createElement('li');
+                    entry.textContent = JSON.stringify(result, null, 2);
+                    entry.classList.add('entry');
+                    basicLog.append(entry);
+                }                
+            </script>
+        </article>
+        <article class="helpers">
+            <header>Helpers</header>
+            <p>The <code>&lt;form-field&gt;</code> element provides "slots" for helper elements that a field may need. Since the <code>&lt;form-field&gt;</code> element does not use the shadowDOM, it doesn't use acutal <code>&lt;slot&gt;</code> functionality for this feature. Instead, parts of a template are replaced dynamically with whatever content sets its <code>slot</code> attribute to either <code>prefix</code> or <code>postfix</code>.</p>
+            <p>These slots are useful for things like requirement indicators, pre-defined values, or complex styling.</p>
+            <div class="example">
+                <style>
+                    article.helpers .example
+                    {
+                        display: grid;
+                        gap: .5em;
+                    }
+
+                    article.helpers .code-and-result
+                    {
+                        display: grid;
+                        grid-template-columns: 1fr 1fr;
+                        gap: .5em;
+                    }
+
+                    article.helpers .group .container
+                    {
+                        display: grid;
+                    }
+                    
+                    /* article.helpers code pre
+                    {
+                        overflow: auto;
+                        max-width: 430px;
+                        min-width: 50px;
+                        word-break: break-all;
+                    } */
+                </style>
+                <section>
+                    <header>Content Without a <code>slot</code> attribute</header>
+                    <p>All elements that are not an expected input, or assigned a <code>slot</code> attribute will be appended to the end of the form-field's container.</p>
+                    <p>This kind of content is useful for error messages, or additional notes about the specific field.</p>
+                    <p>Note how the the "Before" element is appended after the <code>&lt;input&gt;</code> element.</p>
+                    <div class="code-and-result">
+                        <code class="block">
+                            <pre>
+&lt;form-field label=&quot;Username&quot;&gt;
+    &lt;div&gt;Before&lt;/div&gt;
+    &lt;input type=&quot;text&quot; name=&quot;username&quot; placeholder=&quot;Same as it ever was&quot; /&gt;
+    &lt;div&gt;After&lt;/div&gt;
+&lt;/form-field&gt;
+                            </pre>
+                        </code>
+                        <div class="result">        
+                            <form-field label="Username">
+                                <div>Before</div>
+                                <input type="text" name="username" placeholder="Same as it ever was" />
+                                <div>After</div>
+                            </form-field>
+                        </div>
+                    </div>
+                </section>
+                <section>
+                    <header><code>prefix</code> slot</header>
+                    <p>Setting a child element's <code>slot</code> attribute to a value of <code>prefix</code> will place that element directly after the input.</p>
+                    <p>In the case of input groups, the prefix element will be duplicated before each input.</p>
+                    <div class="code-and-result">
+                        <code class="block">
+                            <pre>
+&lt;form-field label=&quot;Text&quot;&gt;
+    &lt;input type=&quot;text&quot; name=&quot;prefix-text&quot; placeholder=&quot;Prefix&quot; /&gt;
+    &lt;span slot="prefix"&gt;Before&lt;/span&gt;
+&lt;/form-field&gt;
+                            </pre>
+                        </code>
+                        <div class="result">        
+                            <form-field label="Text">
+                                <input type="text" name="prefix-text" placeholder="Prefix" />
+                                <span slot="prefix">Before</span>
+                            </form-field>
+                            <form-field label="Group">
+                                <input type="checkbox" name="prefix-booleans" value="0" />
+                                <input type="checkbox" name="prefix-booleans" value="1" />
+                                <input type="checkbox" name="prefix-booleans" value="2" />
+                                <input type="checkbox" name="prefix-booleans" value="3" />
+                                <span slot="prefix">Before</span>
+                            </form-field>
+                        </div>
+                    </div>
+                </section>
+                <section>
+                    <header><code>postfix</code> slot</header>
+                    <p>Giving a child element the <code>attribute</code> value of <code>postfix</code> will place that element after the input.</p>
+                    <p>In the case of input groups, the postfix element will be duplicated after each input.</p>
+                    <div class="code-and-result">
+                        <code class="block">
+                            <pre>
+&lt;form-field label=&quot;Text&quot;&gt;
+    &lt;span slot="postfix"&gt;After&lt;/span&gt;
+    &lt;input type=&quot;text&quot; name=&quot;postfix-text&quot; placeholder=&quot;Postfix&quot; /&gt;
+&lt;/form-field&gt;
+                            </pre>
+                        </code>
+                        <div class="result">        
+                            <form-field label="Text">
+                                <span slot="postfix">After</span>
+                                <input type="text" name="postfix-text" placeholder="Postfix" />
+                            </form-field>
+                            <form-field label="Group">
+                                <span slot="postfix">After</span>
+                                <input type="checkbox" name="postfix-booleans" value="0" />
+                                <input type="checkbox" name="postfix-booleans" value="1" />
+                                <input type="checkbox" name="postfix-booleans" value="2" />
+                                <input type="checkbox" name="postfix-booleans" value="3" />
+                            </form-field>
+                        </div>
+                    </div>
+                </section>
+                <section>
+                    <header>Practical Example</header>
+                    <p>This example implements a simple search control using the slots and additional content.</p>
+                    <div class="code-and-result">
+                        <code class="block">
+                            <pre>
+&lt;form-field label=&quot;Username&quot;&gt;
+    &lt;div slot="after"&gt;After&lt;/div&gt;
+    &lt;input type=&quot;text&quot; name=&quot;username&quot; placeholder=&quot;Same as it ever was&quot; /&gt;
+&lt;/form-field&gt;
+                            </pre>
+                        </code>
+                        <div class="result">
+                            <form-field label="Search">
+                                <input type="search" name="query" />
+                                <select slot="prefix" class="type">
+                                    <option value="name">Name</option>
+                                    <option value="tag">Tag</option>
+                                    <option value="id">Product ID</option>
+                                </select>
+                                <button slot="postfix">&#x1f50d;</button>
+                                <div class="error"></div>
+                            </form-field>
+                        </div>
+                    </div>
+                </section>
+            </div>
+        </article>
+        <article class="form-data">
+            <header>Form Data</header>
+            <p>The <code>&lt;form-field&gt;</code> element does not interfere with <code>FormData</code> when a form is submitted, so any named inputs can have their content collected in a <code>FormData</code> object, like normal.</p>
+            <p>In this example, the <code>&lt;form&gt;</code>'s <code>submit</code> event is being handled by having each of its fields are rendered to a dialog:</p>
+            <div class="example">
+                <style>
+                    article.form-data .example dialog
+                    {
+                        position: fixed;
+                        top: 50%;
+                        translate: 0 -50%;
+                    }
+                    article.form-data .example form
+                    {
+                        display: grid;
+                        gap: 1em;
+                        max-width: 80ch;
+                        white-space: break-all;
+                    }
+                    article.form-data .example form fieldset
+                    {
+                        display: grid;
+                        gap: .5em;
+                    }
+                    article.form-data .example form-field .container
+                    {
+                        display: grid;
+                        /* grid-template-columns: minmax(75px, auto) 1fr;
+                        text-align: right; */
+                        gap: .5em;
+                    }
+                    article.form-data .example form-field .field-label
+                    {
+                        font-weight: bold;
+                        font-size: 12px;
+                    }
+                    article.form-data .example form-field .container:has(label)
+                    {
+                        grid-template-columns: 1fr;
+                        text-align: left;
+                    }
+                    article.form-data .example form-field .container > input[type="checkbox"]
+                    {
+                        justify-self: flex-start;
+                    }
+                </style>
+                <form id="form-data">
+                    <fieldset>
+                        <legend>First String</legend>
+                        <form-field label="Text"><input type="text" name="text" /></form-field>
+                        <!-- <form-field label="Required"><input type="text" name="required" required /></form-field> -->
+                        <form-field label="Password"><input type="password" name="password" /></form-field>
+                        <form-field label="Number"><input type="number" name="number" /></form-field>
+                        <form-field label="Checkbox"><input type="checkbox" name="checkbox" /></form-field>
+                        <form-field label="Select">
+                            <select name="select">
+                                <option value="A">Option A</option>
+                                <option value="B">Option B</option>
+                                <option value="C">Option C</option>
+                            </select>
+                        </form-field>
+                        <form-field label="Textarea"><textarea name="textarea"></textarea></form-field>
+                    </fieldset>
+                    <fieldset>
+                        <legend>The Calvary</legend>
+                        <form-field label="Color"><input type="color" name="color" /></form-field>
+                        <form-field label="Date"><input type="date" name="date" /></form-field>
+                        <form-field label="Range"><input type="range" name="range" /></form-field>
+                        <form-field label="File"><input type="file" name="file" /></form-field>
+                    </fieldset>
+                    <fieldset>
+                        <legend>Texty Bois</legend>
+                        <form-field label="Email"><input type="email" name="email" /></form-field>
+                        <form-field label="Telephone"><input type="tel" name="tel" /></form-field>
+                        <form-field label="Url"><input type="url" name="url" /></form-field>
+                        <form-field label="Search"><input type="search" name="search" /></form-field>
+                        <form-field label="Hidden"><input type="hidden" name="hidden" /></form-field>
+                    </fieldset>
+                    <fieldset>
+                        <legend>Special Case</legend>
+                        <form-field label="Date Time Local"><input type="datetime-local" name="datetime-local" /></form-field>
+                        <form-field label="Time"><input type="time" name="time" /></form-field>
+                        <form-field label="Month"><input type="month" name="month" /></form-field>
+                        <form-field label="Week"><input type="week" name="week" /></form-field>
+                    </fieldset>
+                    <fieldset>
+                        <legend>Custom Features</legend>
+                        <form-field label="Other Stuff in the field">
+                            <span>Before</span>
+                            <input type="text" name="text" />
+                            <span>After</span>
+                        </form-field>
+                        <form-field label="Checkbox Group">
+                            <input type="checkbox" name="checkbox-group" value="dogs" />
+                            <input type="checkbox" name="checkbox-group" value="cats" />
+                            <input type="checkbox" name="checkbox-group" value="platypus" />
+                            <input type="checkbox" name="checkbox-group" value="hyphenated-pythons" />
+                        </form-field>
+                        <form-field label="Radio Group" disabled>
+                            <input type="radio" name="radio-group" value="a" data-label="&lt; 50 miles" />
+                            <input type="radio" name="radio-group" value="b" data-label="&gt; 50 miles, &lt; 500 miles" />
+                            <input type="radio" name="radio-group" value="c" data-label="&gt; 500 miles &lt; 1000 miles" />
+                            <input type="radio" name="radio-group" value="d" data-label="🎵 500 MILES &amp; 500 MORE 🎵" />
+                        </form-field>
+                        <form-field label="Other Group" class="text-group" optional optional-title="Enable?">
+                            <input type="text" name="text-group" data-label="Text A" placeholder="Has optional attribute" />
+                            <input type="text" name="text-group" data-label="Text B" placeholder="Use checkbox to toggle" />
+                            <input type="text" name="text-group" data-label="Text C" placeholder="Enabled" />
+                            <input type="text" name="text-group" data-label="Text D" placeholder="Disabled" />
+                        </form-field>
+                    </fieldset>
+                    <fieldset>
+                        <legend>Web Coast Customs</legend>
+                        <form-field>
+                            <span slot="label">
+                                <span class="title"><code>&lt;file-input&gt;</code> Custom Element</span>
+                                <small><em>(<a class="repo-link" href="https://github.com/catapart/magnitce-file-input">repo</a>)</em></small>
+                            </span>
+                            <file-input name="file-input-element"></file-input>
+                        </form-field>
+                        <form-field>
+                            <span slot="label">
+                                <span class="title"><code>&lt;image-input&gt;</code> Custom Element</span>
+                                <small><em>(<a class="repo-link" href="https://github.com/catapart/magnitce-image-input">repo</a>)</em></small>
+                            </span>
+                            <image-input name="image-input-element"></image-input>
+                        </form-field>
+                        <!-- <form-field label="Rating" input-selector="rating-input">
+                            <rating-input name="rating"></rating-input>
+                        </form-field>
+                        <form-field label="Richtext" input-selector="richtext-input">
+                            <richtext-input name="richtext"></richtext-input>
+                        </form-field> -->
+                    </fieldset>
+                    <fieldset>
+                        <legend>Weird Inputs</legend>
+                        <form-field label="Button"><input type="button" name="button-input" value="this is an input with the type of button" /></form-field>
+                        <form-field label="Image"><input type="image" name="image-input" src="" alt="this is a submit button with a graphic. so dumb." /></form-field>
+                    </fieldset>
+                    <fieldset disabled>
+                        <legend>Deprecated</legend>
+                        <form-field label="Reset"><input type="reset" name="reset-input" /></form-field>
+                        <form-field label="Submit"><input type="submit" name="submit-input" /></form-field>
+                    </fieldset>
+                    <button type="submit">Submit</button>
+                </form>
+                <dialog></dialog>
+            </div>
+            <script type="module">
+                const formDataExample = document.querySelector('article.form-data');
+                const formDataForm = formDataExample.querySelector('form');
+                const formDataDialog = formDataExample.querySelector('dialog');
+                const formDataLog = document.querySelector('article.form-data .log ul');
+                document.addEventListener('DOMContentLoaded', () =>
+                {
+                    formDataForm.addEventListener('submit', ((event) =>
+                    {
+                        event.preventDefault();
+                        event.stopPropagation();
+
+                        const formData = new FormData(event.target);
+                        console.table(Array.from(formData));
+
+                        // this renders the form data into an html
+                        // table and puts it into a dialog for display
+                        let tableString = `<h4>Form Data</h4><table>`;
+                        tableString += '<thead><tr><th>Field</th><th>Value</th></tr></thead>';
+                        for(const [key, value] of formData)
+                        {
+                            tableString += `<tr><td>${key}</td><td>${value}</td></tr>`;
+                        }
+                        tableString += '</table>';
+                        formDataDialog.innerHTML = tableString;
+                        formDataDialog.open = true;
+                        document.addEventListener('click', () =>
+                        {
+                            formDataDialog.open = false;
+                        }, { once: true})
+
+                        return false;
+                    }));
+                });
+                function logResult(result)
+                {
+                    const entry = document.createElement('li');
+                    entry.textContent = JSON.stringify(result, null, 2);
+                    entry.classList.add('entry');
+                    basicLog.append(entry);
+                }                
+            </script>
+        </article>
+    </main>
+    <script type="module" src="./file-input.min.js"></script>
+    <script type="module" src="./image-input.min.js"></script>
+    <script type="module" src="../vanilla/form-field.js"></script>
+</body>
+</html>

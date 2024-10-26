@@ -1,0 +1,40 @@
+{
+  "name": "@magnit-ce/form-field",
+  "version": "0.0.1",
+  "description": "A custom html element that wraps inputs with a practical layout and common interaction functionality.",
+  "type": "module",
+  "main": "dist/form-field.js",
+  "module": "dist/form-field.mjs",
+  "types": "dist/form-field.d.ts",
+  "files": [
+    "dist"
+  ],
+  "scripts": {
+    "build": "tsup form-field.ts --format cjs,esm --dts --clean",
+    "build-vanilla": "tsup form-field.ts --format esm --dts --clean --outDir ./vanilla",
+    "minify": "tsup form-field.ts --format esm --config ./tsup.config.min.ts --outDir ./vanilla --minify",
+    "lint": "tsup form-field.ts --format esm --tsconfig ./tsconfig.lint.json",
+    "package": "npm run build && npm run build-vanilla && npm run minify",
+    "release": "npm run package && changeset publish"
+  },
+  "keywords": [
+    "custom",
+    "element",
+    "html",
+    "form",
+    "layout"
+  ],
+  "author": "catapart",
+  "license": "CC0-1.0",
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/catapart/magnitce-form-field"
+  },
+  "devDependencies": {
+    "@changesets/cli": "^2.27.7",
+    "minify": "^11.4.0",
+    "terser": "^5.31.3",
+    "tsup": "^8.2.0",
+    "typescript": "^5.5.3"
+  }
+}
