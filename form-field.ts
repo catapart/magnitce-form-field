@@ -37,7 +37,8 @@ export class FormFieldElement extends HTMLElement
         if(this.hasAttribute('initialized')) { return; }
 
         const inputSelector = this.getAttribute('input-selector') || 'input,select,textarea';        
-        const groupElements = [...this.querySelectorAll(inputSelector)];
+        const groupElements = [...this.querySelectorAll(inputSelector)].filter(item => !item.classList.contains('enabled-checkbox'));
+
 
         const prefix = this.querySelector('[slot="prefix"]');
         if(prefix != null) { prefix.remove(); }
@@ -112,6 +113,7 @@ export class FormFieldElement extends HTMLElement
                 input = document.createElement('input');
                 (input as HTMLInputElement).placeholder = this.getAttribute('placeholder') ?? "";
                 (input as HTMLInputElement).value = this.getAttribute('value') ?? "";
+                (input as HTMLInputElement).name = this.getAttribute('name') ?? "";
             }
             if(input != null)
             {
@@ -201,7 +203,7 @@ export class FormFieldElement extends HTMLElement
             .trim(); // remove whitespace
     }
 
-    static observedAttributes = [ 'label', 'value', 'placeholder', 'optional-value', 'disabled' ];
+    static observedAttributes = [ 'label', 'value', 'placeholder', 'name', 'optional-value', 'disabled' ];
     attributeChangedCallback(attributeName: string, _oldValue: string, newValue: string) 
     {
         if(attributeName == "label")
@@ -243,7 +245,6 @@ export class FormFieldElement extends HTMLElement
         }
         else if(attributeName == "placeholder")
         {
-            const isDisabled = newValue != null;
             const inputSelector = this.getAttribute('input-selector') || 'input,select,textarea';   
             const inputs = [...this.querySelectorAll(inputSelector)] as HTMLElement[];
             for(let i = 0; i < inputs.length; i++)
@@ -251,9 +252,18 @@ export class FormFieldElement extends HTMLElement
                 const input = inputs[i];
                 if(input.classList.contains('enabled-checkbox')) { continue; }
                 (input as HTMLInputElement).placeholder = newValue;
-            }
-            const checkbox = this.querySelector<HTMLInputElement>('.enabled-checkbox');            
-            if(checkbox != null) { checkbox.checked = !isDisabled; }            
+            }          
+        }
+        else if(attributeName == "name")
+        {
+            const inputSelector = this.getAttribute('input-selector') || 'input,select,textarea';   
+            const inputs = [...this.querySelectorAll(inputSelector)] as HTMLElement[];
+            for(let i = 0; i < inputs.length; i++)
+            {
+                const input = inputs[i];
+                if(input.classList.contains('enabled-checkbox')) { continue; }
+                (input as HTMLInputElement).name = newValue;
+            }           
         }
     }
 

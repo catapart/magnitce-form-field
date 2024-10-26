@@ -29,7 +29,7 @@ var FormFieldElement = class _FormFieldElement extends HTMLElement {
       return;
     }
     const inputSelector = this.getAttribute("input-selector") || "input,select,textarea";
-    const groupElements = [...this.querySelectorAll(inputSelector)];
+    const groupElements = [...this.querySelectorAll(inputSelector)].filter((item) => !item.classList.contains("enabled-checkbox"));
     const prefix = this.querySelector('[slot="prefix"]');
     if (prefix != null) {
       prefix.remove();
@@ -89,6 +89,7 @@ var FormFieldElement = class _FormFieldElement extends HTMLElement {
         input = document.createElement("input");
         input.placeholder = this.getAttribute("placeholder") ?? "";
         input.value = this.getAttribute("value") ?? "";
+        input.name = this.getAttribute("name") ?? "";
       }
       if (input != null) {
         const otherElements = [...this.querySelectorAll(`:scope > :not(${inputSelector})`)];
@@ -160,7 +161,7 @@ var FormFieldElement = class _FormFieldElement extends HTMLElement {
   static toTitleCase(value) {
     return value.substring(0, 1).toUpperCase() + value.replace(/([A-Z]+)/g, " $1").replace(/-([A-Za-z])/g, " $1").replace(/([A-Z][a-z])/g, " $1").replace(/ ([a-z])/g, (match) => `${match.toUpperCase()}`).substring(1).trim();
   }
-  static observedAttributes = ["label", "value", "placeholder", "optional-value", "disabled"];
+  static observedAttributes = ["label", "value", "placeholder", "name", "optional-value", "disabled"];
   attributeChangedCallback(attributeName, _oldValue, newValue) {
     if (attributeName == "label") {
       const label = this.querySelector(".field-label");
@@ -200,7 +201,6 @@ var FormFieldElement = class _FormFieldElement extends HTMLElement {
         checkbox.checked = !isDisabled;
       }
     } else if (attributeName == "placeholder") {
-      const isDisabled = newValue != null;
       const inputSelector = this.getAttribute("input-selector") || "input,select,textarea";
       const inputs = [...this.querySelectorAll(inputSelector)];
       for (let i = 0; i < inputs.length; i++) {
@@ -210,9 +210,15 @@ var FormFieldElement = class _FormFieldElement extends HTMLElement {
         }
         input.placeholder = newValue;
       }
-      const checkbox = this.querySelector(".enabled-checkbox");
-      if (checkbox != null) {
-        checkbox.checked = !isDisabled;
+    } else if (attributeName == "name") {
+      const inputSelector = this.getAttribute("input-selector") || "input,select,textarea";
+      const inputs = [...this.querySelectorAll(inputSelector)];
+      for (let i = 0; i < inputs.length; i++) {
+        const input = inputs[i];
+        if (input.classList.contains("enabled-checkbox")) {
+          continue;
+        }
+        input.name = newValue;
       }
     }
   }

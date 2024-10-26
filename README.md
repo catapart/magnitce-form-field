@@ -1,11 +1,15 @@
 # `<form-field>` Element
 A custom `HTMLElement` that wraps inputs with a practical layout and common interaction functionality.
 
-Package size: ~7kb minified, ~9kb verbose.
+Package size: ~6kb minified, ~10kb verbose.
 
 ## Quick Reference
 ```html
 <form>
+<form-field label="No Input" placeholder="This form-field has no inputs"></form-field>
+<form-field label="Custom Text Input">
+    <input type="text" name="custom-text" placeholder="This input is defined in the html" />
+</form-field>
 </form>
 <script type="module" src="/path/to/form-field[.min].js"></script>
 ```
@@ -91,6 +95,7 @@ For a multiple-input template, the "container" must be included but rather than 
 |`label`|Sets the text content of the title for the input.|
 |`value`|Sets the value for a single input. Does not have an effect if multiple inputs are used.|
 |`placholder`|Sets the placholder attribute for each input the `<form-field>` manages.|
+|`name`|Sets the name attribute for each input the `<form-field>` manages.|
 |`optional`|When present, adds a checkbox to the `<form-field>`'s title which, when checked, toggles the child inputs' `disabled` attributes.|
 |`optional-title`|A value that is set as the `title` attribute's value for the checkbox that toggles whether inputs are enabled.|
 |`optional-value`|Sets the checked state of the checkbox that toggles whether inputs are enabled.|
