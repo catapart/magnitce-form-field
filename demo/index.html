@@ -3,439 +3,353 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Form Field Demo</title>
+    <title>&lt;form-field&gt; Demo</title>
     <link rel="stylesheet" href="./demo-page.css">
     <style>
-        code.block
-        {
-            overflow: auto;
-            min-width: 50px;
-            align-self: flex-end;
-        }
         .field-label
         {
             color: highlight;
         }
+        form-field > .container
+        {
+            display: grid;
+            row-gap: 3.5px;
+        }
+        form-field .field-label
+        {
+            font-weight: bold;
+            font-size: 12px;
+        }
+
+        article.basic .example
+        ,article.helpers .example
+        {
+            display: grid;
+            gap: .5rem;
+        }
+
+
+        form-field.search
+        {
+            display: grid;
+            grid-template-columns: auto 1fr auto;
+            row-gap: .25em;
+            background-color: rgb(0 0 0 / .2);
+            padding: 1em;
+            border-radius: 3px;
+        }
+        form-field.search .container
+        {
+            display: contents;
+        }
+        form-field.search .field-label
+        {
+            grid-column: span 3;
+        }
+        form-field.search input
+        ,form-field.search select
+        ,form-field.search button
+        {
+            background-color: field;
+            color: fieldtext;
+            border: solid 1px;
+            padding: 2px 10px;
+        }
+        form-field.search select
+        {
+            border-top-left-radius: 3px;
+            border-bottom-left-radius: 3px;
+        }
+        form-field.search input
+        {
+            border-left: none;
+            border-right: none;
+            min-width: 0;
+        }
+        form-field.search button
+        {
+            border-top-right-radius: 3px;
+            border-bottom-right-radius: 3px;
+        }
+        form-field.search .error
+        {
+            grid-column: span 3;
+            font-size: .8em;
+            color: red;
+        }
+
+        article.form-data .example dialog
+        {
+            position: fixed;
+            top: 50%;
+            translate: 0 -50%;
+        }
+
+        article.form-data .example form
+        {
+            display: grid;
+            gap: 1em;
+            max-width: 80ch;
+            white-space: break-all;
+            margin-inline: auto;
+        }
+        article.form-data .example form fieldset
+        {
+            display: grid;
+            gap: .5em;
+        }
+        article.form-data .example form-field .container:has(label)
+        {
+            grid-template-columns: 1fr;
+            text-align: left;
+        }
+        article.form-data .example form-field .container > input[type="checkbox"]
+        {
+            justify-self: flex-start;
+        }
     </style>
 </head>
 <body>
-    <main>
-        <h1>Overview</h1>
-        <div class="overview">
+    <main class="centered-single-column">
+        <header class="full-width">
+            <div class="content centered-single-column">
+                <h1>The <code>form-field</code> element</h1>
+            </div>
+        </header>
+        <article class="overview">
+            <h2>Overview</h2>
             <p>The <code>&lt;form-field&gt;</code> element is a wrapper element that provides a label element and common layouts for form elements like <code>&lt;input&gt;</code>, <code>&lt;select&gt;</code>, and <code>&lt;textarea&gt;</code> elements.</p>
             <p>The goal of the element is to allow hand-written <code>&lt;form&gt;</code>s to be possible with fewer elements when doing the most common form designs.</p>
-        </div>
-        <h1>Examples</h1>
+        </article>
         <article class="basic">
-            <header>Basic Examples</header>
+            <h2>Basic Examples</h2>
             <p>The <code>&lt;form-field&gt;</code> element is used as a helper to whittle down the boilerplate necessary to have well-functioning and well-formatted form field.</p>
             <p>The element may include a <code>&lt;label&gt;</code> element or several <code>&lt;label&gt;</code> elements, depending on whether the input is a collection of inputs or not.</p>
             <p>If the content is only a single child, that child will be rendered in a <code>&lt;label&gt;</code> element with a span to hold the text of the field's title. The content of that span will be populated by any value provided as the <code>label</code> attribute on the <code>&lt;form-field&gt;</code> element.</p>
             <p>If the content is multiple inputs, the inputs will be rendered in a <code>&lt;div class="container"&gt;</code> element with a span to hold the text of the field's title, which should describe the whole group. The content of that span will be populated by any value provided as the <code>label</code> attribute on the <code>&lt;form-field&gt;</code> element.</p>
             <p>Each of the provided inputs will be rendered in their own <code>&lt;label&gt;</code> elements, each including titles for the inputs based on the input values.</p>
             <p>In the examples below, note the difference in HTML written with the the <code>&lt;form-field&gt;</code> element vs with non-custom HTML elements. For only 4 fields, the difference is still apparent. But as forms grow, the benefit of using the <code>&lt;form-field&gt;</code> element grows too.</p>
-            <div class="example">
-                <style>
-                    article.basic .example
-                    {
-                        display: grid;
-                        gap: .5em;
-                    }
-                    article.basic .example form-field > [part="container"]
-                    {
-                        display: grid;
-                    }
-                    article.basic .comparison
-                    {
-                        display: grid;
-                        gap: .5em;
-                        grid-template-columns: 1fr 1fr;
-                        /* width: auto; */
-                        overflow: hidden;
-                    }
-                    article.basic .comparison > header
-                    {
-                        grid-column: span 2;
-                    }
-                    article.basic .comparison > div > header
-                    {
-                        margin-bottom: 10px;
-                    }
-                    article.basic .comparison > div
-                    {
-                        display: grid;
-                        grid-template-rows: auto 1fr;
-                    }
-                    
-                    article.basic code.block
-                    {
-                        height: 300px;
-                    }
-                </style>
-                <form-field label="No Input" placeholder="This form-field has no inputs"></form-field>
-                <form-field label="Custom Text Input"><input type="text" name="username" placeholder="This input is defined in the html" /></form-field>
-                <form-field label="Password"><input type="password" name="password" /></form-field>
-                <form-field label="Ways for Love to Grow">
-                    <select name="love-growth-method">
-                        <option value="good">Good</option>
-                        <option value="bad">Bad</option>
-                        <option value="mediocre">Mediocre</option>
-                    </select>
-                </form-field>
-                <form-field label="Subs">
-                    <input type="checkbox" name="subs" value="meatball" />
-                    <input type="checkbox" name="subs" value="turkey-bacon-club" />
-                    <input type="checkbox" name="subs" value="philly-cheesesteak" />
-                    <input type="checkbox" name="subs" value="chicken-salad" />
-                </form-field>
-            </div>
-            <div class="comparison">
-                <header>Comparison</header>
-                <div class="left">
-                    <header><code>&lt;form-field&gt;</code> Element</header>
-                    <code class="block">
-                        <pre>
+            <section>
+                <div class="example">
+                    <form-field label="No Input" placeholder="This form-field has no inputs"></form-field>
+                    <form-field label="Custom Text Input"><input type="text" name="username" placeholder="This input is defined in the html" /></form-field>
+                    <form-field label="Password"><input type="password" name="password" /></form-field>
+                    <form-field label="Ways for Love to Grow">
+                        <select name="love-growth-method">
+                            <option value="good">Good</option>
+                            <option value="bad">Bad</option>
+                            <option value="mediocre">Mediocre</option>
+                        </select>
+                    </form-field>
+                    <form-field label="Subs">
+                        <input type="checkbox" name="subs" value="meatball" />
+                        <input type="checkbox" name="subs" value="turkey-bacon-club" />
+                        <input type="checkbox" name="subs" value="philly-cheesesteak" />
+                        <input type="checkbox" name="subs" value="chicken-salad" />
+                    </form-field>
+                </div>
+                <div class="comparison">
+                    <div class="left">
+                        <header><code>&lt;form-field&gt;</code> Element</header>
+                        <code class="block">
 &lt;form-field label=&quot;No Input&quot; placeholder=&quot;This form-field has no inputs&quot;&gt;&lt;/form-field&gt;
 &lt;form-field label=&quot;Custom Text Input&quot;&gt;
-    &lt;input type=&quot;text&quot; name=&quot;username&quot; placeholder=&quot;This input is defined in the html&quot; /&gt;
+&lt;input type=&quot;text&quot; name=&quot;username&quot; placeholder=&quot;This input is defined in the html&quot; /&gt;
 &lt;/form-field&gt;
 &lt;form-field label=&quot;Password&quot;&gt;
-    &lt;input type=&quot;password&quot; name=&quot;password&quot; /&gt;
+&lt;input type=&quot;password&quot; name=&quot;password&quot; /&gt;
 &lt;/form-field&gt;
 &lt;form-field label=&quot;Ways for Love to Grow&quot;&gt;
-    &lt;select name=&quot;love-growth-method&quot;&gt;
-        &lt;option value=&quot;good&quot;&gt;Good&lt;/option&gt;
-        &lt;option value=&quot;bad&quot;&gt;Bad&lt;/option&gt;
-        &lt;option value=&quot;mediocre&quot;&gt;Mediocre&lt;/option&gt;
-    &lt;/select&gt;
+&lt;select name=&quot;love-growth-method&quot;&gt;
+    &lt;option value=&quot;good&quot;&gt;Good&lt;/option&gt;
+    &lt;option value=&quot;bad&quot;&gt;Bad&lt;/option&gt;
+    &lt;option value=&quot;mediocre&quot;&gt;Mediocre&lt;/option&gt;
+&lt;/select&gt;
 &lt;/form-field&gt;
 &lt;form-field label=&quot;Subs&quot;&gt;
-    &lt;input type=&quot;checkbox&quot; name=&quot;subs&quot; value=&quot;meatball&quot; /&gt;
-    &lt;input type=&quot;checkbox&quot; name=&quot;subs&quot; value=&quot;turkey-bacon-club&quot; /&gt;
-    &lt;input type=&quot;checkbox&quot; name=&quot;subs&quot; value=&quot;philly-cheesesteak&quot; /&gt;
-    &lt;input type=&quot;checkbox&quot; name=&quot;subs&quot; value=&quot;chicken-salad&quot; /&gt;
+&lt;input type=&quot;checkbox&quot; name=&quot;subs&quot; value=&quot;meatball&quot; /&gt;
+&lt;input type=&quot;checkbox&quot; name=&quot;subs&quot; value=&quot;turkey-bacon-club&quot; /&gt;
+&lt;input type=&quot;checkbox&quot; name=&quot;subs&quot; value=&quot;philly-cheesesteak&quot; /&gt;
+&lt;input type=&quot;checkbox&quot; name=&quot;subs&quot; value=&quot;chicken-salad&quot; /&gt;
 &lt;/form-field&gt;
-                        </pre>
-                    </code>
-                </div>
-                <div class="right">
-                    <header>Plain HTML</header>
-                    <code class="block">
-                        <pre>
+                        </code>
+                    </div>
+                    <div class="right">
+                        <header>Plain HTML</header>
+                        <code class="block">
 &lt;label class=&quot;container&quot;&gt;
-    &lt;span class=&quot;field-label&quot;&gt;No Input&lt;/span&gt;
-    &lt;input placeholder=&quot;This form-field has no inputs&quot;&gt;
+&lt;span class=&quot;field-label&quot;&gt;No Input&lt;/span&gt;
+&lt;input placeholder=&quot;This form-field has no inputs&quot;&gt;
 &lt;/label&gt;
 &lt;label class=&quot;container&quot;&gt;
-    &lt;span class=&quot;field-label&quot;&gt;Custom Text Input&lt;/span&gt;
-    &lt;input type=&quot;text&quot; name=&quot;username&quot; placeholder=&quot;This input is defined in the html&quot;&gt;
+&lt;span class=&quot;field-label&quot;&gt;Custom Text Input&lt;/span&gt;
+&lt;input type=&quot;text&quot; name=&quot;username&quot; placeholder=&quot;This input is defined in the html&quot;&gt;
 &lt;/label&gt;
 &lt;label class=&quot;container&quot;&gt;
-    &lt;span class=&quot;field-label&quot;&gt;Password&lt;/span&gt;
-    &lt;input type=&quot;password&quot; name=&quot;password&quot;&gt;
+&lt;span class=&quot;field-label&quot;&gt;Password&lt;/span&gt;
+&lt;input type=&quot;password&quot; name=&quot;password&quot;&gt;
 &lt;/label&gt;
 &lt;label class=&quot;container&quot;&gt;
-    &lt;span class=&quot;field-label&quot;&gt;Ways for Love to Grow&lt;/span&gt;
-    &lt;select name=&quot;love-growth-method&quot;&gt;
-        &lt;option value=&quot;good&quot;&gt;Good&lt;/option&gt;
-        &lt;option value=&quot;bad&quot;&gt;Bad&lt;/option&gt;
-        &lt;option value=&quot;mediocre&quot;&gt;Mediocre&lt;/option&gt;
-    &lt;/select&gt;
+&lt;span class=&quot;field-label&quot;&gt;Ways for Love to Grow&lt;/span&gt;
+&lt;select name=&quot;love-growth-method&quot;&gt;
+    &lt;option value=&quot;good&quot;&gt;Good&lt;/option&gt;
+    &lt;option value=&quot;bad&quot;&gt;Bad&lt;/option&gt;
+    &lt;option value=&quot;mediocre&quot;&gt;Mediocre&lt;/option&gt;
+&lt;/select&gt;
 &lt;/label&gt;
 &lt;div class=&quot;container&quot;&gt;
-    &lt;span class=&quot;field-label&quot;&gt;Subs&lt;/span&gt;
-    &lt;label class=&quot;option&quot;&gt;
-        &lt;input type=&quot;checkbox&quot; name=&quot;subs&quot; value=&quot;meatball&quot;&gt;
-        &lt;span class=&quot;label&quot;&gt;Meatball&lt;/span&gt;
-    &lt;/label&gt;
-    &lt;label class=&quot;option&quot;&gt;
-        &lt;input type=&quot;checkbox&quot; name=&quot;subs&quot; value=&quot;turkey-bacon-club&quot;&gt;
-        &lt;span class=&quot;label&quot;&gt;Turkey Bacon Club&lt;/span&gt;
-    &lt;/label&gt;
-    &lt;label class=&quot;option&quot;&gt;
-        &lt;input type=&quot;checkbox&quot; name=&quot;subs&quot; value=&quot;philly-cheesesteak&quot;&gt;
-        &lt;span class=&quot;label&quot;&gt;Philly Cheesesteak&lt;/span&gt;
-    &lt;/label&gt;
-    &lt;label class=&quot;option&quot;&gt;
-        &lt;input type=&quot;checkbox&quot; name=&quot;subs&quot; value=&quot;chicken-salad&quot;&gt;
-        &lt;span class=&quot;label&quot;&gt;Chicken Salad&lt;/span&gt;
-    &lt;/label&gt;
+&lt;span class=&quot;field-label&quot;&gt;Subs&lt;/span&gt;
+&lt;label class=&quot;option&quot;&gt;
+    &lt;input type=&quot;checkbox&quot; name=&quot;subs&quot; value=&quot;meatball&quot;&gt;
+    &lt;span class=&quot;label&quot;&gt;Meatball&lt;/span&gt;
+&lt;/label&gt;
+&lt;label class=&quot;option&quot;&gt;
+    &lt;input type=&quot;checkbox&quot; name=&quot;subs&quot; value=&quot;turkey-bacon-club&quot;&gt;
+    &lt;span class=&quot;label&quot;&gt;Turkey Bacon Club&lt;/span&gt;
+&lt;/label&gt;
+&lt;label class=&quot;option&quot;&gt;
+    &lt;input type=&quot;checkbox&quot; name=&quot;subs&quot; value=&quot;philly-cheesesteak&quot;&gt;
+    &lt;span class=&quot;label&quot;&gt;Philly Cheesesteak&lt;/span&gt;
+&lt;/label&gt;
+&lt;label class=&quot;option&quot;&gt;
+    &lt;input type=&quot;checkbox&quot; name=&quot;subs&quot; value=&quot;chicken-salad&quot;&gt;
+    &lt;span class=&quot;label&quot;&gt;Chicken Salad&lt;/span&gt;
+&lt;/label&gt;
 &lt;/div&gt;
-                        </pre>
-                    </code>
+                        </code>
+                    </div>
                 </div>
-            </div>
-            <script type="module">
-                const basicExample = document.querySelector('article.basic');
-                const basicLog = document.querySelector('article.basic .log ul');
-                document.addEventListener('DOMContentLoaded', () =>
-                {
-                });  
-                function logResult(result)
-                {
-                    const entry = document.createElement('li');
-                    entry.textContent = JSON.stringify(result, null, 2);
-                    entry.classList.add('entry');
-                    basicLog.append(entry);
-                }                
-            </script>
+            </section>
         </article>
         <article class="helpers">
-            <header>Helpers</header>
+            <h2>Helpers</h2>
             <p>The <code>&lt;form-field&gt;</code> element provides "slots" for helper elements that a field may need. Since the <code>&lt;form-field&gt;</code> element does not use the shadowDOM, it doesn't use acutal <code>&lt;slot&gt;</code> functionality for this feature. Instead, parts of a template are replaced dynamically with whatever content sets its <code>slot</code> attribute to either <code>prefix</code> or <code>postfix</code>.</p>
             <p>These slots are useful for things like requirement indicators, pre-defined values, or complex styling.</p>
-            <div class="example">
-                <style>
-                    article.helpers .example
-                    {
-                        display: grid;
-                        gap: .5em;
-                    }
-
-                    article.helpers .code-and-result
-                    {
-                        display: grid;
-                        grid-template-columns: 1fr 1fr;
-                        gap: .5em;
-                    }
-
-                    article.helpers .group .container
-                    {
-                        display: grid;
-                    }
-
-                    article.helpers .result
-                    {
-                        display: grid;
-                        grid-auto-rows: min-content;
-                        align-items: flex-start;
-                        gap: 1em;
-                    }
-
-                    form-field.search
-                    {
-                        display: grid;
-                        grid-template-columns: auto 1fr auto;
-                        row-gap: .25em;
-                        background-color: rgb(0 0 0 / .2);
-                        padding: 1em;
-                        border-radius: 3px;
-                    }
-                    form-field.search .container
-                    {
-                        display: contents;
-                    }
-                    form-field.search .field-label
-                    {
-                        grid-column: span 3;
-                        font-size: 12px;
-                        font-weight: bold;
-                    }
-                    form-field.search input
-                    ,form-field.search select
-                    ,form-field.search button
-                    {
-                        background-color: field;
-                        color: fieldtext;
-                        border: solid 1px;
-                        padding: 2px 10px;
-                    }
-                    form-field.search select
-                    {
-                        border-top-left-radius: 3px;
-                        border-bottom-left-radius: 3px;
-                    }
-                    form-field.search input
-                    {
-                        border-left: none;
-                        border-right: none;
-                    }
-                    form-field.search button
-                    {
-                        border-top-right-radius: 3px;
-                        border-bottom-right-radius: 3px;
-                    }
-                    form-field.search .error
-                    {
-                        grid-column: span 3;
-                        font-size: .8em;
-                        color: red;
-                    }
-                </style>
-                <section>
-                    <header>Content Without a <code>slot</code> attribute</header>
-                    <p>All elements that are not an expected input, or assigned a <code>slot</code> attribute will be appended to the end of the form-field's container.</p>
-                    <p>This kind of content is useful for error messages, or additional notes about the specific field.</p>
-                    <p>Note how the the "Before" element is appended after the <code>&lt;input&gt;</code> element.</p>
-                    <div class="code-and-result">
-                        <code class="block">
-                            <pre>
+            
+            <section>
+                <h4>Content Without a <code>slot</code> attribute</h4>
+                <p>All elements that are not an expected input, or assigned a <code>slot</code> attribute will be appended to the end of the form-field's container.</p>
+                <p>This kind of content is useful for error messages, or additional notes about the specific field.</p>
+                <p>Note how the the "Before" element is appended after the <code>&lt;input&gt;</code> element.</p>
+                <div class="code-and-example">
+                    <code class="block">
 &lt;form-field label=&quot;Username&quot;&gt;
-    &lt;div&gt;Before&lt;/div&gt;
-    &lt;input type=&quot;text&quot; name=&quot;username&quot; placeholder=&quot;Same as it ever was&quot; /&gt;
-    &lt;div&gt;After&lt;/div&gt;
+&lt;div&gt;Before&lt;/div&gt;
+&lt;input type=&quot;text&quot; name=&quot;username&quot; placeholder=&quot;Same as it ever was&quot; /&gt;
+&lt;div&gt;After&lt;/div&gt;
 &lt;/form-field&gt;
-                            </pre>
-                        </code>
-                        <div class="result">        
-                            <form-field label="Username">
-                                <div>Before</div>
-                                <input type="text" name="username" placeholder="Same as it ever was" />
-                                <div>After</div>
-                            </form-field>
-                        </div>
+                    </code>
+                    <div class="example">        
+                        <form-field label="Username">
+                            <div>Before</div>
+                            <input type="text" name="username" placeholder="Same as it ever was" />
+                            <div>After</div>
+                        </form-field>
                     </div>
-                </section>
-                <section>
-                    <header><code>prefix</code> slot</header>
-                    <p>Setting a child element's <code>slot</code> attribute to a value of <code>prefix</code> will place that element directly after the input.</p>
-                    <p>In the case of input groups, the prefix element will be duplicated before each input.</p>
-                    <div class="code-and-result">
-                        <code class="block">
-                            <pre>
+                </div>
+            </section>
+            <section>
+                <h4><code>prefix</code> slot</h4>
+                <p>Setting a child element's <code>slot</code> attribute to a value of <code>prefix</code> will place that element directly after the input.</p>
+                <p>In the case of input groups, the prefix element will be duplicated before each input.</p>
+                <div class="code-and-example">
+                    <code class="block">
 &lt;form-field label=&quot;Text&quot;&gt;
-    &lt;input type=&quot;text&quot; name=&quot;prefix-text&quot; placeholder=&quot;Prefix&quot; /&gt;
-    &lt;span slot=&quot;prefix&quot;&gt;Before&lt;/span&gt;
+&lt;input type=&quot;text&quot; name=&quot;prefix-text&quot; placeholder=&quot;Prefix&quot; /&gt;
+&lt;span slot=&quot;prefix&quot;&gt;Before&lt;/span&gt;
 &lt;/form-field&gt;
 &lt;form-field label=&quot;Group&quot;&gt;
-    &lt;input type=&quot;checkbox&quot; name=&quot;prefix-booleans&quot; value=&quot;0&quot; /&gt;
-    &lt;input type=&quot;checkbox&quot; name=&quot;prefix-booleans&quot; value=&quot;1&quot; /&gt;
-    &lt;input type=&quot;checkbox&quot; name=&quot;prefix-booleans&quot; value=&quot;2&quot; /&gt;
-    &lt;input type=&quot;checkbox&quot; name=&quot;prefix-booleans&quot; value=&quot;3&quot; /&gt;
-    &lt;span slot=&quot;prefix&quot;&gt;Before&lt;/span&gt;
+&lt;input type=&quot;checkbox&quot; name=&quot;prefix-booleans&quot; value=&quot;0&quot; /&gt;
+&lt;input type=&quot;checkbox&quot; name=&quot;prefix-booleans&quot; value=&quot;1&quot; /&gt;
+&lt;input type=&quot;checkbox&quot; name=&quot;prefix-booleans&quot; value=&quot;2&quot; /&gt;
+&lt;input type=&quot;checkbox&quot; name=&quot;prefix-booleans&quot; value=&quot;3&quot; /&gt;
+&lt;span slot=&quot;prefix&quot;&gt;Before&lt;/span&gt;
 &lt;/form-field&gt;
-                            </pre>
-                        </code>
-                        <div class="result">        
-                            <form-field label="Text">
-                                <input type="text" name="prefix-text" placeholder="Prefix" />
-                                <span slot="prefix">Before</span>
-                            </form-field>
-                            <form-field label="Group">
-                                <input type="checkbox" name="prefix-booleans" value="0" />
-                                <input type="checkbox" name="prefix-booleans" value="1" />
-                                <input type="checkbox" name="prefix-booleans" value="2" />
-                                <input type="checkbox" name="prefix-booleans" value="3" />
-                                <span slot="prefix">Before</span>
-                            </form-field>
-                        </div>
+                    </code>
+                    <div class="example">        
+                        <form-field label="Text">
+                            <input type="text" name="prefix-text" placeholder="Prefix" />
+                            <span slot="prefix">Before</span>
+                        </form-field>
+                        <form-field label="Group">
+                            <input type="checkbox" name="prefix-booleans" value="0" />
+                            <input type="checkbox" name="prefix-booleans" value="1" />
+                            <input type="checkbox" name="prefix-booleans" value="2" />
+                            <input type="checkbox" name="prefix-booleans" value="3" />
+                            <span slot="prefix">Before</span>
+                        </form-field>
                     </div>
-                </section>
-                <section>
-                    <header><code>postfix</code> slot</header>
-                    <p>Giving a child element the <code>attribute</code> value of <code>postfix</code> will place that element after the input.</p>
-                    <p>In the case of input groups, the postfix element will be duplicated after each input.</p>
-                    <div class="code-and-result">
-                        <code class="block">
-                            <pre>
+                </div>
+            </section>
+            <section>
+                <h4><code>postfix</code> slot</h4>
+                <p>Giving a child element the <code>attribute</code> value of <code>postfix</code> will place that element after the input.</p>
+                <p>In the case of input groups, the postfix element will be duplicated after each input.</p>
+                <div class="code-and-example">
+                    <code class="block">
 &lt;form-field label=&quot;Text&quot;&gt;
-    &lt;span slot=&quot;postfix&quot;&gt;After&lt;/span&gt;
-    &lt;input type=&quot;text&quot; name=&quot;postfix-text&quot; placeholder=&quot;Postfix&quot; /&gt;
+&lt;span slot=&quot;postfix&quot;&gt;After&lt;/span&gt;
+&lt;input type=&quot;text&quot; name=&quot;postfix-text&quot; placeholder=&quot;Postfix&quot; /&gt;
 &lt;/form-field&gt;
 &lt;form-field label=&quot;Group&quot;&gt;
-    &lt;span slot=&quot;postfix&quot;&gt;After&lt;/span&gt;
-    &lt;input type=&quot;checkbox&quot; name=&quot;postfix-booleans&quot; value=&quot;0&quot; /&gt;
-    &lt;input type=&quot;checkbox&quot; name=&quot;postfix-booleans&quot; value=&quot;1&quot; /&gt;
-    &lt;input type=&quot;checkbox&quot; name=&quot;postfix-booleans&quot; value=&quot;2&quot; /&gt;
-    &lt;input type=&quot;checkbox&quot; name=&quot;postfix-booleans&quot; value=&quot;3&quot; /&gt;
+&lt;span slot=&quot;postfix&quot;&gt;After&lt;/span&gt;
+&lt;input type=&quot;checkbox&quot; name=&quot;postfix-booleans&quot; value=&quot;0&quot; /&gt;
+&lt;input type=&quot;checkbox&quot; name=&quot;postfix-booleans&quot; value=&quot;1&quot; /&gt;
+&lt;input type=&quot;checkbox&quot; name=&quot;postfix-booleans&quot; value=&quot;2&quot; /&gt;
+&lt;input type=&quot;checkbox&quot; name=&quot;postfix-booleans&quot; value=&quot;3&quot; /&gt;
 &lt;/form-field&gt;
-                            </pre>
-                        </code>
-                        <div class="result">        
-                            <form-field label="Text">
-                                <span slot="postfix">After</span>
-                                <input type="text" name="postfix-text" placeholder="Postfix" />
-                            </form-field>
-                            <form-field label="Group">
-                                <span slot="postfix">After</span>
-                                <input type="checkbox" name="postfix-booleans" value="0" />
-                                <input type="checkbox" name="postfix-booleans" value="1" />
-                                <input type="checkbox" name="postfix-booleans" value="2" />
-                                <input type="checkbox" name="postfix-booleans" value="3" />
-                            </form-field>
-                        </div>
+                    </code>
+                    <div class="example">        
+                        <form-field label="Text">
+                            <span slot="postfix">After</span>
+                            <input type="text" name="postfix-text" placeholder="Postfix" />
+                        </form-field>
+                        <form-field label="Group">
+                            <span slot="postfix">After</span>
+                            <input type="checkbox" name="postfix-booleans" value="0" />
+                            <input type="checkbox" name="postfix-booleans" value="1" />
+                            <input type="checkbox" name="postfix-booleans" value="2" />
+                            <input type="checkbox" name="postfix-booleans" value="3" />
+                        </form-field>
                     </div>
-                </section>
-                <section>
-                    <header>Practical Example</header>
-                    <p>This example implements a simple search control using the slots and additional content.</p>
-                    <div class="code-and-result">
-                        <code class="block">
-                            <pre>
+                </div>
+            </section>
+            <section>
+                <h4>Practical Example</h4>
+                <p>This example implements a simple search control using the slots and additional content.</p>
+                <div class="code-and-example">
+                    <code class="block">
 &lt;form-field label=&quot;Search&quot; class=&quot;search&quot; input-selector=&quot;input[type='search']&quot;&gt;
-    &lt;input type=&quot;search&quot; name=&quot;query&quot; /&gt;
-    &lt;select slot=&quot;prefix&quot; class=&quot;type&quot;&gt;
-        &lt;option value=&quot;name&quot;&gt;Name&lt;/option&gt;
-        &lt;option value=&quot;tag&quot;&gt;Tag&lt;/option&gt;
-        &lt;option value=&quot;id&quot;&gt;Product ID&lt;/option&gt;
-    &lt;/select&gt;
-    &lt;button slot=&quot;postfix&quot;&gt;&amp;#x1f50d;&lt;/button&gt;
-    &lt;div class=&quot;error&quot;&gt;&lt;/div&gt;
+&lt;input type=&quot;search&quot; name=&quot;query&quot; /&gt;
+&lt;select slot=&quot;prefix&quot; class=&quot;type&quot;&gt;
+    &lt;option value=&quot;name&quot;&gt;Name&lt;/option&gt;
+    &lt;option value=&quot;tag&quot;&gt;Tag&lt;/option&gt;
+    &lt;option value=&quot;id&quot;&gt;Product ID&lt;/option&gt;
+&lt;/select&gt;
+&lt;button slot=&quot;postfix&quot;&gt;&amp;#x1f50d;&lt;/button&gt;
+&lt;div class=&quot;error&quot;&gt;This is where error text would be displayed.&lt;/div&gt;
 &lt;/form-field&gt;
-                            </pre>
-                        </code>
-                        <div class="result">
-                            <form-field label="Search" class="search" input-selector="input[type='search']">
-                                <input type="search" name="query" />
-                                <select slot="prefix" class="type">
-                                    <option value="name">Name</option>
-                                    <option value="tag">Tag</option>
-                                    <option value="id">Product ID</option>
-                                </select>
-                                <button slot="postfix">&#x1f50d;</button>
-                                <div class="error">This is where error text would be displayed.</div>
-                            </form-field>
-                        </div>
+                    </code>
+                    <div class="example">
+                        <form-field label="Search" class="search" input-selector="input[type='search']">
+                            <input type="search" name="query" />
+                            <select slot="prefix" class="type">
+                                <option value="name">Name</option>
+                                <option value="tag">Tag</option>
+                                <option value="id">Product ID</option>
+                            </select>
+                            <button slot="postfix">&#x1f50d;</button>
+                            <div class="error">This is where error text would be displayed.</div>
+                        </form-field>
                     </div>
-                </section>
-            </div>
+                </div>
+            </section>
         </article>
         <article class="form-data">
-            <header>Form Data</header>
+            <h2>Form Data</h2>
             <p>The <code>&lt;form-field&gt;</code> element does not interfere with <code>FormData</code> when a form is submitted, so any named inputs can have their content collected in a <code>FormData</code> object, like normal.</p>
             <p>In this example, the <code>&lt;form&gt;</code>'s <code>submit</code> event is being handled by having each of its fields are rendered to a dialog:</p>
             <div class="example">
-                <style>
-                    article.form-data .example dialog
-                    {
-                        position: fixed;
-                        top: 50%;
-                        translate: 0 -50%;
-                    }
-                    article.form-data .example form
-                    {
-                        display: grid;
-                        gap: 1em;
-                        max-width: 80ch;
-                        white-space: break-all;
-                    }
-                    article.form-data .example form fieldset
-                    {
-                        display: grid;
-                        gap: .5em;
-                    }
-                    article.form-data .example form-field .container
-                    {
-                        display: grid;
-                        /* grid-template-columns: minmax(75px, auto) 1fr;
-                        text-align: right; */
-                        gap: .5em;
-                    }
-                    article.form-data .example form-field .field-label
-                    {
-                        font-weight: bold;
-                        font-size: 12px;
-                    }
-                    article.form-data .example form-field .container:has(label)
-                    {
-                        grid-template-columns: 1fr;
-                        text-align: left;
-                    }
-                    article.form-data .example form-field .container > input[type="checkbox"]
-                    {
-                        justify-self: flex-start;
-                    }
-                </style>
                 <form id="form-data">
                     <fieldset>
                         <legend>First String</legend>
@@ -503,15 +417,15 @@
                     </fieldset>
                     <fieldset>
                         <legend>Web Coast Customs</legend>
-                        <form-field>
-                            <span slot="label">
+                        <form-field input-selector="file-input">
+                            <span slot="field-label">
                                 <span class="title"><code>&lt;file-input&gt;</code> Custom Element</span>
                                 <small><em>(<a class="repo-link" href="https://github.com/catapart/magnitce-file-input">repo</a>)</em></small>
                             </span>
                             <file-input name="file-input-element"></file-input>
                         </form-field>
-                        <form-field>
-                            <span slot="label">
+                        <form-field input-selector="image-input">
+                            <span slot="field-label">
                                 <span class="title"><code>&lt;image-input&gt;</code> Custom Element</span>
                                 <small><em>(<a class="repo-link" href="https://github.com/catapart/magnitce-image-input">repo</a>)</em></small>
                             </span>
@@ -527,7 +441,7 @@
                     <fieldset>
                         <legend>Weird Inputs</legend>
                         <form-field label="Button"><input type="button" name="button-input" value="this is an input with the type of button" /></form-field>
-                        <form-field label="Image"><input type="image" name="image-input" src="" alt="this is a submit button with a graphic. so dumb." /></form-field>
+                        <form-field label="Image"><input type="image" name="image-input" src="./submit-button.jpg" alt="this is a submit button with a graphic, instead of a input that accepts image file types. so dumb." /></form-field>
                     </fieldset>
                     <fieldset disabled>
                         <legend>Deprecated</legend>

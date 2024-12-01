@@ -2,13 +2,13 @@
 var COMPONENT_STYLESHEET = new CSSStyleSheet();
 COMPONENT_STYLESHEET.replaceSync(`form-field { display: var(--form-field-display, contents) }`);
 var singleTemplate = `<label class="container">
-<span class="field-label"></span>
+<slot class="field-label" name="field-label"></slot>
 <slot class="prefix" name="prefix"></slot>
 <slot class="light"></slot>
 <slot class="postfix" name="postfix"></slot>
 </label>`;
 var groupTemplate = `<div class="container">
-<span class="field-label"></span>
+<slot class="field-label" name="field-label"></slot>
 <label class="option">
     <slot class="prefix" name="prefix"></slot>
     <slot class="light"></slot>
@@ -30,6 +30,10 @@ var FormFieldElement = class _FormFieldElement extends HTMLElement {
     }
     const inputSelector = this.getAttribute("input-selector") || "input,select,textarea";
     const groupElements = [...this.querySelectorAll(inputSelector)].filter((item) => !item.classList.contains("enabled-checkbox"));
+    const fieldLabel = this.querySelector('[slot="field-label"]');
+    if (fieldLabel != null) {
+      fieldLabel.remove();
+    }
     const prefix = this.querySelector('[slot="prefix"]');
     if (prefix != null) {
       prefix.remove();
@@ -108,6 +112,15 @@ var FormFieldElement = class _FormFieldElement extends HTMLElement {
         }
         this.append(...otherElements);
       }
+    }
+    const fieldLabelSlot = this.querySelector(".field-label");
+    if (fieldLabel != null && fieldLabelSlot != null) {
+      fieldLabel.classList.add("field-label");
+      fieldLabelSlot.parentElement.replaceChild(fieldLabel, fieldLabelSlot);
+    } else if (fieldLabelSlot != null) {
+      const labelElement = document.createElement("span");
+      labelElement.classList.add("field-label");
+      fieldLabelSlot?.replaceWith(labelElement);
     }
     const labelValue = this.getAttribute("label");
     const label = this.querySelector(".field-label");
