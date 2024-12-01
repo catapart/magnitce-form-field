@@ -1,5 +1,11 @@
 # @magnit-ce/form-field
 
+## 0.0.6
+
+### Patch Changes
+
+- dec4ac9: refactored field-label slot
+
 ## 0.0.5
 
 ### Patch Changes
