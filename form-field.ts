@@ -166,14 +166,28 @@ export class FormFieldElement extends HTMLElement
                 optionalCheckbox.type = 'checkbox';
                 optionalCheckbox.classList.add('enabled-checkbox');
                 if(optionalTitle != null) { optionalCheckbox.setAttribute('title', optionalTitle); }
+                const optionalClass = this.getAttribute('optional-class') ?? 'option-true';
                 optionalCheckbox.addEventListener('change', () =>
                 {
                     this.setAttribute('optional-value', optionalCheckbox.checked == true ? "true" : "false");
                     for(let i = 0; i < inputs.length; i++)
                     {
                         const input = inputs[i];
-                        if(optionalCheckbox.checked == true) { input.removeAttribute('disabled'); }
-                        else { input.toggleAttribute('disabled', true); }
+                        input.toggleAttribute('disabled', !optionalCheckbox.checked);
+                    }
+
+                    const elements = new Set([this,
+                        this.querySelector('.container'),
+                        this.querySelector('.field-label'),
+                        optionalCheckbox,
+                        this.querySelector('.field-label span'),
+                        ...inputs
+                    ]);
+                    for(const element of elements)
+                    {
+                        if(element == null) { continue; }
+                        element.classList.toggle(optionalClass, optionalCheckbox.checked);
+                        element.part.toggle(optionalClass, optionalCheckbox.checked);
                     }
                 });
                 const text = document.createElement('span');
@@ -185,8 +199,9 @@ export class FormFieldElement extends HTMLElement
                 for(let i = 0; i < inputs.length; i++)
                 {
                     const input = inputs[i];
-                    if(optionalCheckbox.checked == true) { input.removeAttribute('disabled'); }
-                    else { input.setAttribute('disabled', 'disabled'); }
+                    input.toggleAttribute('disabled', !optionalCheckbox.checked);
+                    input.classList.toggle(optionalClass, optionalCheckbox.checked);
+                    input.part.toggle(optionalClass, optionalCheckbox.checked);
                 }
             }
             else

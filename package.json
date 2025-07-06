@@ -11,10 +11,9 @@
   ],
   "scripts": {
     "build": "tsup form-field.ts --format cjs,esm --dts --clean",
-    "build-vanilla": "tsup form-field.ts --format esm --dts --clean --outDir ./vanilla",
-    "minify": "tsup form-field.ts --format esm --config ./tsup.config.min.ts --outDir ./vanilla --minify",
+    "minify": "tsup form-field.ts --format esm --config ./tsup.config.min.ts --outDir ./dist --minify",
     "lint": "tsup form-field.ts --format esm --tsconfig ./tsconfig.lint.json",
-    "package": "npm run build && npm run build-vanilla && npm run minify",
+    "package": "npm run build && npm run minify",
     "release": "npm run package && changeset publish"
   },
   "keywords": [
