@@ -1,5 +1,11 @@
 # @magnit-ce/form-field
 
+## 0.0.7
+
+### Patch Changes
+
+- 4592d7e: updates to optional field handling
+
 ## 0.0.6
 
 ### Patch Changes

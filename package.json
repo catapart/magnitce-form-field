@@ -1,6 +1,6 @@
 {
   "name": "@magnit-ce/form-field",
-  "version": "0.0.6",
+  "version": "0.0.7",
   "description": "A custom html element that wraps inputs with a practical layout and common interaction functionality.",
   "type": "module",
   "main": "dist/form-field.js",
