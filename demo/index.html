@@ -8,7 +8,8 @@
     <style>
         .field-label
         {
-            color: highlight;
+            padding: 3px 0;
+            line-height: 1.5;
         }
         form-field > .container
         {
@@ -18,7 +19,7 @@
         form-field .field-label
         {
             font-weight: bold;
-            font-size: 12px;
+            font-size: 14px;
         }
 
         article.basic .example
@@ -234,9 +235,9 @@
                 <div class="code-and-example">
                     <code class="block">
 &lt;form-field label=&quot;Username&quot;&gt;
-&lt;div&gt;Before&lt;/div&gt;
-&lt;input type=&quot;text&quot; name=&quot;username&quot; placeholder=&quot;Same as it ever was&quot; /&gt;
-&lt;div&gt;After&lt;/div&gt;
+    &lt;div&gt;Before&lt;/div&gt;
+        &lt;input type=&quot;text&quot; name=&quot;username&quot; placeholder=&quot;Same as it ever was&quot; /&gt;
+    &lt;div&gt;After&lt;/div&gt;
 &lt;/form-field&gt;
                     </code>
                     <div class="example">        
@@ -250,20 +251,20 @@
             </section>
             <section>
                 <h4><code>prefix</code> slot</h4>
-                <p>Setting a child element's <code>slot</code> attribute to a value of <code>prefix</code> will place that element directly after the input.</p>
+                <p>Setting a child element's <code>slot</code> attribute to a value of <code>prefix</code> will place that element directly before the input.</p>
                 <p>In the case of input groups, the prefix element will be duplicated before each input.</p>
                 <div class="code-and-example">
                     <code class="block">
 &lt;form-field label=&quot;Text&quot;&gt;
-&lt;input type=&quot;text&quot; name=&quot;prefix-text&quot; placeholder=&quot;Prefix&quot; /&gt;
-&lt;span slot=&quot;prefix&quot;&gt;Before&lt;/span&gt;
+    &lt;input type=&quot;text&quot; name=&quot;prefix-text&quot; placeholder=&quot;Prefix&quot; /&gt;
+    &lt;span slot=&quot;prefix&quot;&gt;Before&lt;/span&gt;
 &lt;/form-field&gt;
 &lt;form-field label=&quot;Group&quot;&gt;
-&lt;input type=&quot;checkbox&quot; name=&quot;prefix-booleans&quot; value=&quot;0&quot; /&gt;
-&lt;input type=&quot;checkbox&quot; name=&quot;prefix-booleans&quot; value=&quot;1&quot; /&gt;
-&lt;input type=&quot;checkbox&quot; name=&quot;prefix-booleans&quot; value=&quot;2&quot; /&gt;
-&lt;input type=&quot;checkbox&quot; name=&quot;prefix-booleans&quot; value=&quot;3&quot; /&gt;
-&lt;span slot=&quot;prefix&quot;&gt;Before&lt;/span&gt;
+    &lt;input type=&quot;checkbox&quot; name=&quot;prefix-booleans&quot; value=&quot;0&quot; /&gt;
+    &lt;input type=&quot;checkbox&quot; name=&quot;prefix-booleans&quot; value=&quot;1&quot; /&gt;
+    &lt;input type=&quot;checkbox&quot; name=&quot;prefix-booleans&quot; value=&quot;2&quot; /&gt;
+    &lt;input type=&quot;checkbox&quot; name=&quot;prefix-booleans&quot; value=&quot;3&quot; /&gt;
+    &lt;span slot=&quot;prefix&quot;&gt;Before&lt;/span&gt;
 &lt;/form-field&gt;
                     </code>
                     <div class="example">        
@@ -288,15 +289,15 @@
                 <div class="code-and-example">
                     <code class="block">
 &lt;form-field label=&quot;Text&quot;&gt;
-&lt;span slot=&quot;postfix&quot;&gt;After&lt;/span&gt;
-&lt;input type=&quot;text&quot; name=&quot;postfix-text&quot; placeholder=&quot;Postfix&quot; /&gt;
+    &lt;span slot=&quot;postfix&quot;&gt;After&lt;/span&gt;
+    &lt;input type=&quot;text&quot; name=&quot;postfix-text&quot; placeholder=&quot;Postfix&quot; /&gt;
 &lt;/form-field&gt;
 &lt;form-field label=&quot;Group&quot;&gt;
-&lt;span slot=&quot;postfix&quot;&gt;After&lt;/span&gt;
-&lt;input type=&quot;checkbox&quot; name=&quot;postfix-booleans&quot; value=&quot;0&quot; /&gt;
-&lt;input type=&quot;checkbox&quot; name=&quot;postfix-booleans&quot; value=&quot;1&quot; /&gt;
-&lt;input type=&quot;checkbox&quot; name=&quot;postfix-booleans&quot; value=&quot;2&quot; /&gt;
-&lt;input type=&quot;checkbox&quot; name=&quot;postfix-booleans&quot; value=&quot;3&quot; /&gt;
+    &lt;span slot=&quot;postfix&quot;&gt;After&lt;/span&gt;
+    &lt;input type=&quot;checkbox&quot; name=&quot;postfix-booleans&quot; value=&quot;0&quot; /&gt;
+    &lt;input type=&quot;checkbox&quot; name=&quot;postfix-booleans&quot; value=&quot;1&quot; /&gt;
+    &lt;input type=&quot;checkbox&quot; name=&quot;postfix-booleans&quot; value=&quot;2&quot; /&gt;
+    &lt;input type=&quot;checkbox&quot; name=&quot;postfix-booleans&quot; value=&quot;3&quot; /&gt;
 &lt;/form-field&gt;
                     </code>
                     <div class="example">        
@@ -320,14 +321,14 @@
                 <div class="code-and-example">
                     <code class="block">
 &lt;form-field label=&quot;Search&quot; class=&quot;search&quot; input-selector=&quot;input[type='search']&quot;&gt;
-&lt;input type=&quot;search&quot; name=&quot;query&quot; /&gt;
-&lt;select slot=&quot;prefix&quot; class=&quot;type&quot;&gt;
-    &lt;option value=&quot;name&quot;&gt;Name&lt;/option&gt;
-    &lt;option value=&quot;tag&quot;&gt;Tag&lt;/option&gt;
-    &lt;option value=&quot;id&quot;&gt;Product ID&lt;/option&gt;
-&lt;/select&gt;
-&lt;button slot=&quot;postfix&quot;&gt;&amp;#x1f50d;&lt;/button&gt;
-&lt;div class=&quot;error&quot;&gt;This is where error text would be displayed.&lt;/div&gt;
+    &lt;input type=&quot;search&quot; name=&quot;query&quot; /&gt;
+    &lt;select slot=&quot;prefix&quot; class=&quot;type&quot;&gt;
+        &lt;option value=&quot;name&quot;&gt;Name&lt;/option&gt;
+        &lt;option value=&quot;tag&quot;&gt;Tag&lt;/option&gt;
+        &lt;option value=&quot;id&quot;&gt;Product ID&lt;/option&gt;
+    &lt;/select&gt;
+    &lt;button slot=&quot;postfix&quot;&gt;&amp;#x1f50d;&lt;/button&gt;
+    &lt;div class=&quot;error&quot;&gt;This is where error text would be displayed.&lt;/div&gt;
 &lt;/form-field&gt;
                     </code>
                     <div class="example">
@@ -348,7 +349,7 @@
         <article class="form-data">
             <h2>Form Data</h2>
             <p>The <code>&lt;form-field&gt;</code> element does not interfere with <code>FormData</code> when a form is submitted, so any named inputs can have their content collected in a <code>FormData</code> object, like normal.</p>
-            <p>In this example, the <code>&lt;form&gt;</code>'s <code>submit</code> event is being handled by having each of its fields are rendered to a dialog:</p>
+            <p>In this example, the <code>&lt;form&gt;</code>'s <code>submit</code> event is being handled by rendering each of its fields to a dialog:</p>
             <div class="example">
                 <form id="form-data">
                     <fieldset>
