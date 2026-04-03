@@ -1,176 +1,133 @@
-# `<form-field>` Element
-A custom `HTMLElement` that wraps inputs with a practical layout and common interaction functionality.
+# Warning - Non-production package
+> [!WARNING]  
+> This project is being prepared for production, but is not ready to be used as a dependency for anything. There will be breaking changes and unrecoverable states. Do not use until this warning has been removed.
+> When the library reaches the `1.0.0` designation, that will be a production package. From that point, you can use the major version number (`1` in `1.0.0`) to recognize when breaking changes are introduced.
 
-Package size: ~6kb minified, ~10kb verbose.
-
-## Quick Reference
-```html
-<form>
-<form-field label="No Input" placeholder="This form-field has no inputs"></form-field>
-<form-field label="Custom Text Input">
-    <input type="text" name="custom-text" placeholder="This input is defined in the html" />
-</form-field>
-</form>
-<script type="module" src="/path/to/form-field[.min].js"></script>
-```
-
-## Demos
-https://catapart.github.io/magnitce-form-field/demo/
-
-## Support
-- Firefox
-- Chrome
-- Edge
-- <s>Safari</s> (Has not been tested; should be supported, based on custom element support)
-
-## Getting Started
- 1. [Install/Reference the library](#referenceinstall)
-
-### Reference/Install
-#### HTML Import (not required for vanilla js/ts; alternative to import statement)
-```html
-<script type="module" src="/path/to/form-field[.min].js"></script>
-```
-#### npm
-```cmd
-npm install @magnit-ce/form-field
-```
-
-### Import
-#### Vanilla js/ts
-```js
-import "/path/to/form-field[.min].js"; // if you didn't reference from a <script>, reference with an import like this
-
-import { FormFieldElement } from "/path/to/form-field[.min].js";
-```
-#### npm
-```js
-import "@magnit-ce/form-field"; // if you didn't reference from a <script>, reference with an import like this
-
-import { FormFieldElement } from "@magnit-ce/form-field";
-```
-
----
----
----
+# The `form-field` Custom Element
 
 ## Overview
-The `<form-field>` element is a convenience element with the intention of cutting down on boilerplate. While the browser default functionality for putting inputs inside of `<label>` elements are great, actually writing the wrapper, plus the field title scaffolding, plus any input grouping, plus controls for enabling and disabling the input(s) - it all adds up to a lot of html. Especially if it is handwritten.
+A custom html element that wraps inputs with a practical layout and common interaction functionality.
 
-By using attributes and well-established patterns, the `<form-field>` element provides common-sense conveniences for writing forms.
+|||||
+|-|-|-|-|
+|Package size, **verbose**:|~10kb|Package size, **minified**:|~6kb|
 
-# Inputs and Customization
-The `<form-field>` element will use a `querySelector` call to find any inputs in its content by querying for the value of the `input-selector` attribute.  
-By default, this property's value is `input,select,textarea`, which will determine that any child element that is an `<input>`, a `<select>`, or a `<textarea>` element will be interpreted by the `<form-field>` element as its "input".
 
-The `input-selector` attribute can be changed to select any arbitrary element types, which can be useful for custom element inputs, or custom components/controls that provide a form field value. For example, these `<form-field>` elements will each recognize their *(fictional)* child component as their "input"s.
+
+## Quick Start
 ```html
-<form-field input-selector="ReactDropdown">
-    <ReactDropdown />
-</form-field>
-<form-field input-selector=".react-dropdown">
-    <ReactDropdown class="react-dropdown" />
-</form-field>
+<form>
+    <form-field label="No Input" placeholder="This form-field auto-generates its input"></form-field>
+    <form-field label="Custom Text Input">
+        <input type="text" name="custom-text" placeholder="This input is defined in the html" />
+    </form-field> 
+</form>
 ```
 
-## Single Input vs Input Groups
-The `<form-field>` element includes two different template types that are selected based on whether the element is given a single [input](#inputs-and-customization) as a child, or multiple [input](#inputs-and-customization)s as children.
+## Links
+### Demo:
+https://catapart.github.io/magnitce-form-field
+### Documentation:
+https://catapart.github.io/magnitce-form-field/docs
+### Automated Testing:
+https://catapart.github.io/magnitce-form-field/tests.html
 
-Input groups are often useful for things like checkbox options or radio buttons. In addition to those use-cases, the `<form-field>` element allows for multiple  inputs of any type (`<input type="text">`, or `<select>`, for example) to be grouped together in a single field, as well.
+## Repo Notes
+This section provides instructions for how to use the repo to develop the library.
 
-Regardless of input type, the `<form-field>` element includes the field's label as a group name, but also translates any of the inputs' `value` attributes into a title-cased version of that value which is added after the input, to match the most common presentation of radio/checkbox inputs. For cases where the input's value is inappropriate as its title, adding a `data-label` attribute to the input will override that input's title with the exact string value of the `data-label` attribute.
-
-The `<form-field>` element provides each input with its own label so that clicking the input's title text will activate/focus the input. If there is only a single input, the label will act as the field's container element. If there are multiple inputs, the labels are collected into a parent container.
-
-## Templates
-The `<form-field>` element uses one of two templates to render its content, depending on whether there is a single input, or mutlipel inputs. These templates can be overridden in javascript by setting the `<form-field>` element's `static` `singleTemplateDOM` and `groupTemplateDOM` properties.
-
-For a single input template, the template must include an element with a class of `container`, that includes a `<slot class="light"></slot>` element. That element defines where the input will be placed within the template.
-
-For a multiple-input template, the "container" must be included but rather than having the "light slot" be included as direct child, the slot must be inside of an element with a class of `option`. The "option" element will be used as a template (within a template) for each provided input. 
-
-## Attributes
-|Attribute Name|Description|
-|-|-|
-|`label`|Sets the text content of the title for the input.|
-|`value`|Sets the value for a single input. Does not have an effect if multiple inputs are used.|
-|`placholder`|Sets the placholder attribute for each input the `<form-field>` manages.|
-|`name`|Sets the name attribute for each input the `<form-field>` manages.|
-|`optional`|When present, adds a checkbox to the `<form-field>`'s title which, when checked, toggles the child inputs' `disabled` attributes.|
-|`optional-title`|A value that is set as the `title` attribute's value for the checkbox that toggles whether inputs are enabled.|
-|`optional-value`|Sets the checked state of the checkbox that toggles whether inputs are enabled.|
-|`input-selector`|The string that will be used as an element query for finding inputs in the `<form-field>` element's children. Default value: `input,select,textarea`|
-|`disabled`|Toggles each child input's `disabled` attribute to match the `<form-field>` element.|
-|`initialized`|When present, indicates that the `<form-field>` element has been initialized and prevents re-initializing the same element. Added automatically after initialization.|
-
-
-## Layout Elements
-The `<form-field>` element does not make use of the shadowDOM. Each of the elements it injects for layout are given classes that allow the `<form-field>` element to query for them and provide the expected functionality.
-
-Each of these layout elements, along with their identifying class names, are listed below:
-|Class Name|Element Description|Element Type
-|-|-|-|
-|`label`|A `<label>` element that acts as a container and provides click functionality for invoking the nested input.|`HTMLLabelElement`|
-|`input`|The input that invokes the browser functionality like launching a file browser. Hidden by default.|`HTMLInputElement[type="file"]`|
-|`field`|The container for the placeholder, the preview, and the labels. This part includes everything that is not the "Clear" and "View Document" links.|`HTMLSpanElement`|
-|`icon`|An icon that represents a file.|`HTMLSpanElement`|
-|`status`|A container for either the placeholder text, or the filename of the selected file.|`HTMLSpanElement`|
-|`filename`|Displays the filename of the selected file. Hidden when there is no selection.|`HTMLSpanElement`|
-|`placeholder`|Displays the placeholder text. Hidden when a selection has been made.|`HTMLSpanElement`|
-|`clear`|A link that clears the input, if a selection has been made.|`HTMLAnchorElement`|
-|`view-link`|A link that opens the selected file in a new browser context (tab/window).|`HTMLAnchorElement`|
-
-## Slots
-The `<form-field>` element includes `<slot>` elements as a way to manage its templated content. These `<slot>`s are not being used for their custom element functionality, but rather as placeholders for the expected content.
-
-Like other layout elements, each slot is given a class name that identifies it. The `light` slot is where the [child input element will be placed](#templates). The `prefix` slot is injected before each of the child input elements, and the `postfix` slot is injected after each of them.
-
-Unlike default `<slot>` functionality, a single slot may only be replaced by a single element. For the `light` slot, this is not an issue because multiple inputs are treated differently by the `<form-field>` element. For the `prefix` and `postfix` slots, though, only the first element provided with that slot name will be used as the `prefix` or `postfix` respectively.  
-*(To workaround this, add multiple elements to a div, give that div a the slot attribute you are targeting, and set its display style to `contents`.)*
-
-By default, slots have a display property of `contents` which means they are treated as non-entities by the DOM renderer.
-
-Each of the `<form-field>` element's slots are listed below:
-|Slot Name|Description|Default
-|-|-|-|
-|`light`|The target input element.|`HTMLInputElement[type="text"]`|
-|`prefix`|An element directly before the target input element, or before each of the input elements.|`[empty]`|
-|`postfix`|An element directly after the target input element, or after each of the input elements.|`[empty]`|
-
-## Styling
-The `<form-field>` element can be styled with CSS, normally. It does not make use of the shadowDOM, and each of its layout elements are given class names to identify them to the element.
-
-By default, the `<form-field>` element has a `display` style of `contents`. This means that the `.container` element is the most useful to target for editing styles. The `.container` element can be seen as the "top level" element, since any element with a display of `contents` is ignored by the DOM renderer and its contents are treated as if they were injected at the same level of that element.
-
-Each class used by the `<form-field>` element is listed below:
-|Class Name|Description
-|-|-|
-|`container`|For single inputs, the label that wraps the input and title. For multiple inputs, a `<div>` that wraps each input's parent `<label>`.|
-|`field-label`|The element the displays the field's title.|
-|`option`|A container `<label>` element for each input when multiple inputs are provided.|
-|`prefix`|An element directly before the target input element, or before each of the input elements.|
-|`light`|The target input element.|
-|`postfix`|An element directly after the target input element, or after each of the input elements.|
-|`label`|When multiple inputs are provided, this element appears after each input and display's that input's title.|
-|`enabled-checkbox`|The checkbox that is added when the `optional` attribute is provided.|
-|`group`|This class is added to the `form-field` element whenever multiple inputs are provided. Intended for convenience when running a dynamic query.|
-
-In this example, the `.field-label` element is being selected for styling:
-```css
-form-field .field-label
-{
-    /* styling */
-}
-```
-For a list of all layout classes, see the [layout](#layout-elements) section.
-
-Here is an example of styling the form-field's display based on its input's validity state:
-```css
-form-field .container:has(:invalid)
-{
-    border-color: red;
-}
+### Installation
+Install the repo using a package manager:
+```cmd
+npm install
 ```
 
-## License
-This library is in the public domain. You do not need permission, nor do you need to provide attribution, in order to use, modify, reproduce, publish, or sell it or any works using it or derived from it.
+### Configuration
+#### `tsconfig.json`
+The `tsconfig.json` file is generated by the `vite` dependency and has not been modified by this library. It uses strict linting and defaults to `es` modules, rather than `commonjs` modules. For more information about each of the `tsconfig.json` options, see the [tsconfig documentation](https://www.typescriptlang.org/tsconfig/).
+#### `vite.config`
+The `vite.config` file sets defaults options for the dev, build, and release processes, which allows the code to be packaged as a library (rather than a website) and defines custom inputs and outputs to exclude tests and create both `es` and `umd` modules. It also includes settings that allow for multiple file outputs with well-defined names and selective minification. For more information about configuring `vite`, see the [vite config documentation](https://vite.dev/config/).
+#### `vite.config.tests.ts`
+This specialized `vite.config` file defines custom inputs and outputs that include tests and then are packaged into the `test-runner` directory, rather than built to the `dist` directory.
+
+### Development
+The `src` directory has a `dev` subdirectory that is intended for development. Developers can link to code-test files written in typescript, which allows for full type support while writing tests during development.
+
+Place development tests in the `tests` subdirectory of the `dev` directory. Use the suffix `.tests` to denote that a typescript file is a code-tests file. (*example: `interface.tests.ts`*)
+
+Once tests have been added, the `build-tests` script can be used to compile the typescript tests into javascript tests that will be available for use in any `<code-tests>` or `<test-runner>` elements - including on the `tests.html` page.
+
+### Test Page
+The test page (`tests.html`) in the root directory can be used to demonstrate passing tests to users. 
+
+Tests can be created in the `src/dev/tests` directory and developed using the dev page. When all tests are passing, use the `build-tests` script to transpile the `.ts` test files into `.js` test files that are deployed to the `public/tests` directory, which can be referenced by the `tests.html` page.
+
+The test page will also expect a reference to the library file, which won't exist until the `build` script has been run. If running the project causes errors, check the test page to either remove the script tags requesting the library file, or build the library to provide the test page with its requested source file.
+
+### Scripts
+#### `dev`
+Use `vite` to begin a server with Hot Module Replacement, which will automatically reload any time a change in a source file is saved.
+#### `build`
+Use `vite` to transpile the source code into code chunks or library files. Files are output into the `dist` directory by default.
+#### `preview`
+Use `vite` to serve the `dist` directory. Useful for non-library projects, where the `dist` directory will contain an `index.html` file, or other browse-able entry point.
+#### `build-tests`
+Use `vite` to transpile all files with a `.tests.[ts|js|tsx|jsx]` extension into the `public/tests` subdirectory. Creates javascript files that can be served to the `<test-runner>` and `<code-tests>` components, which are included in the `public/libs` subdirectory.
+#### `changeset`
+Runs the `npx @changesets/cli` command to create a new changeset which will prepare the library to be published.
+#### `release`
+Use `vite` to transpile the source code and then use `changesets` to begin the publication procedure for the repo environment (github or gitlab).  
+If this script is run during CI/CD for the `main` branch, the library is published to [npm](https://www.npmjs.com/). If it is run during CI/CD for any other branch, the library is linted and compiled. It is expected that this command will *only* be used by a CI/CD pipeline, and **never** by a library dev. Running the `release` script on a local codebase is not supported.
+
+
+### Publishing
+
+#### Releasing with `changesets`
+Publishing is handled using the `changesets` library which starts the process by requiring a manual entry into a running version log. Once you have defined a set of changes as a version change, the automated processes can prepare the library to be published on to `npm`. When the automation has prepared the release, it will create a pull request from a new branch containing the release package. The publishing developer will be required to merge that branch into main, using the pull request, in order to publish a new version.
+
+The step-by-step process is outline below for both Github and Gitlab:
+
+##### Github Steps
+1. **Run `changeset` command**: `npm run changeset` | `bun run changeset` | `pnpm changesets` | `yarn changesets` | `npx @changesets/cli`
+1. **Log version info**: Add a message that describes the changes in this version
+1. **Check in**: Push changes to repo
+1. **Merge**: Merge branch into `main`
+1.  **Merge Automation Branch**: Await repo automation's creation of a new pull request from a newly created branch. Accept the pull request, merging the branch into main.
+
+After automation completes, the new version will be published to `NPM`.
+
+##### Gitlab Steps
+1. **Run `changeset` command**: `npm run changeset` | `bun run changeset` | `pnpm changesets` | `yarn changesets` | `npx @changesets/cli`
+1. **Log version info**: Add a message that describes the changes in this version
+1. **Check in**: Push changes to repo
+1. **Merge**: Merge branch into `main`
+1.  **Merge Automation Branch**: Await repo automation's creation of a new merge request from a newly created branch. Merge the merge request into main.
+
+After automation completes, the new version will be published to `NPM`.
+
+### Dependencies
+
+#### Library Dependencies
+
+
+#### Development Dependencies
+
+##### [`typescript`](https://www.typescriptlang.org/)
+Typescript provides type checking at dev time which adds compile-time safety to the codebase for a wide range of issues. For more information on Typescript, visit its [website](https://www.typescriptlang.org/).
+
+##### [`@changesets/cli`](https://github.com/changesets/changesets)
+The `changesets` library uses a strict process to handle versioning and publishing which makes the update and deployment of any library to NPM a structured and repeatable series of steps. Versioning is managed by a command-line utility which enforces release notes and semantic versions. Publishing is handled automatically by CI/CD pipelines when code is checked in. The structure allows for automated pipelines to handle linting and testing, while requiring manual directives to invoke action. Versions are not accidentally published, because all code changes that haven't been packaged into a changeset are transparent to the library. As soon as a version is updated (by the library), the CI/CD pipelines will trigger and the library developer will need to merge branches in order to complete the publishing. By enforcing these procedures, `changesets` keeps this library releasing traceable and well-versioned packages.
+
+##### [`vite`](https://vite.dev/)
+Vite is a packaging library that includes a lot of features that make development faster and easier. Packaging and minifying are built in as well as "hot module reload" so that saving any source file will reload the script in the development environment instantly. That is made even better because Vite also dynamically swaps typescript references for javascript references, meaning that a development build can target and debug with the typescript files directly. It is also configurable enough to account for a wide variety of project types.
+
+##### [`vite-plugin-dts`](https://www.npmjs.com/package/vite-plugin-dts)
+This plugin for the `vite` library allows the packaging process to also produce a `.d.ts` file to describe all of the Typescript types exposed by the library. Without that export, other projects that use Typescript would not be able to see the full manifest of exported types.
+
+##### [`@rollup/plugin-terser`](https://www.npmjs.com/package/@rollup/plugin-terser)
+This plugin, which was developed for one of `vite`'s dependencies (`rollup`) but is used in this project by `vite`, provides a type of minification that is not supported by the default library. Using this plugin, the library can be packaged with both unminified and minified code, so that developers who implement the library can debug the code in un-minified files, while still being able to ship a minified version without having to minify it in their own projects.
+
+##### [`@magnit-ce/test-runner`](https://github.com/catapart/magnitce-test-runner)
+This library adds custom HTML elements that allow developers to run simple definitions for automated tests directly in a browser. This element is used in the `dev` directory to provide live automated testing.
+
+##### [`glob`](https://www.npmjs.com/package/glob)
+`glob` is a low-level library that provides full-featured search capabilities to a command-line input. These search features are used by this library to differentiate between test files and source files within the `vite.config` files.
